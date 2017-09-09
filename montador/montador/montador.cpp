@@ -5,25 +5,28 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <ios>
 
 using namespace std;
 
-int main() {
+void lerarquivo() {
 	string line;
-	ifstream myfile("example.txt"); // ifstream = padrão ios:in
+	ifstream myfile("entrada.txt");
 	if (myfile.is_open())
 	{
-		while (!myfile.eof()) //enquanto end of file for false continua
+		cout << "\n";
+		while (getline(myfile, line))
 		{
-			getline(myfile, line); // como foi aberto em modo texto(padrão)
-								   //e não binário(ios::bin) pega cada linha
-			cout << line << endl;
+			cout << line << '\n';
 		}
+		cout << "\n";
 		myfile.close();
 	}
 
-	else cout << "Unable to open file";
+	else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 
+}
+
+int main() {
+	lerarquivo();
 	return 0;
 }
