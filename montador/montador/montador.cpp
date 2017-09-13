@@ -26,7 +26,22 @@ void lerarquivo() {
 
 }
 
+void filtro_comentarios() {
+
+}
+
+void montagem() {
+
+}
+
+void codigo_objeto() {
+
+}
+
 int main() {
 	lerarquivo();
+	filtro_comentarios(); // Podemos salvar em um vetor
+	montagem();
+	codigo_objeto();
 	return 0;
 }
