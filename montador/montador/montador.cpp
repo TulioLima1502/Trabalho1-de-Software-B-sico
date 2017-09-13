@@ -44,10 +44,15 @@ void codigo_objeto() {
 	//mostra o código objetos escrito
 }
 
-int main() {
-
+int main(int argc, char* argv[]) {	
+	//argc eh um inteiro com o numero de argumentos passados pela linha de comando
+	//argv eh um vetor com os argumentos. argv[0] sempre sera o path do programa,
+	//entao eh basicamente ignorado. por isso, o argc na verdade vai ser o numero
+	//de argumentos mais um.
+	string file_name;
 	//verificar como é a chamada do programa pelo gcc
-
+	
+	file_name = argv[2]; // passar para learquivo(). eh o nome do arquivo .asm.
 	lerarquivo();
 	filtro_comentarios(); // Podemos salvar em um vetor
 	montagem();
