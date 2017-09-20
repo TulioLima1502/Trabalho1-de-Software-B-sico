@@ -1,1 +1,2 @@
-Este eh um arquivo de texto que sera lido pelo terminal... Falta incluir a busca pelo arquivo na abertura do programa(URGENTE)
+Este eh um arquivo de texto que sera lido pelo terminal...
+Falta incluir a busca pelo arquivo na abertura do programa(URGENTE)
