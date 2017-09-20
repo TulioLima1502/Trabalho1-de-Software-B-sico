@@ -1,7 +1,7 @@
 // montador.cpp: Define o ponto de entrada para a aplicação de console.
 //
 
-#include "stdafx.h"
+//#include "stdafx.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -10,7 +10,7 @@ using namespace std;
 
 void lerarquivo() {
 	string line;
-	ifstream myfile("entrada.txt");
+	ifstream myfile("triangulo.asm");
 	if (myfile.is_open())
 	{
 		cout << "\n";
