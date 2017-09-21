@@ -8,9 +8,12 @@
 
 using namespace std;
 
-void lerarquivo() {
+void lerarquivo(char* file_name) {
+	//cout<<nome;
+	//char name[] = {nome};
 	string line;
-	ifstream myfile("triangulo.asm");
+	//cout<<name;
+	ifstream myfile(file_name);
 	if (myfile.is_open())
 	{
 		cout << "\n";
@@ -53,7 +56,7 @@ int main(int argc, char* argv[]) {
 	//verificar como é a chamada do programa pelo gcc
 	
 	file_name = argv[2]; // passar para learquivo(). eh o nome do arquivo .asm.
-	lerarquivo();
+	lerarquivo(argv[2]);
 	filtro_comentarios(); // Podemos salvar em um vetor
 	montagem();
 	codigo_objeto();
