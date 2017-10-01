@@ -8,7 +8,22 @@
 
 using namespace std;
 
-void lerarquivo(char* file_name) {
+void filtro_comentarios(string line) {
+	size_t poscom=line.find(";");
+
+
+	if (poscom!=line.npos)
+	{
+		cout << "tem um comentario ae:" << poscom;
+	}
+	else
+	{
+		cout << "\n nem tem comentario aqui \n";
+	}
+
+}
+
+void lerarquivo(char* file_name) { 
 	//cout<<nome;
 	//char name[] = {nome};
 	string line;
@@ -19,7 +34,7 @@ void lerarquivo(char* file_name) {
 		cout << "\n";
 		while (getline(myfile, line))
 		{
-			cout << line << '\n';
+			filtro_comentarios(line);
 		}
 		cout << "\n";
 		myfile.close();
@@ -29,11 +44,7 @@ void lerarquivo(char* file_name) {
 
 }
 
-void filtro_comentarios() {
-	//retira os comentários
-	//assim que encontra um símbolo de comentário pula para a próxiam linha
-	//reescreve esse arquivo em um intermediário
-}
+
 
 void montagem() {
 	//faz a conversão do código conforme a passagem única
@@ -57,7 +68,6 @@ int main(int argc, char* argv[]) {
 	
 	file_name = argv[2]; // passar para learquivo(). eh o nome do arquivo .asm.
 	lerarquivo(argv[2]);
-	filtro_comentarios(); // Podemos salvar em um vetor
 	montagem();
 	codigo_objeto();
 	return 0;
