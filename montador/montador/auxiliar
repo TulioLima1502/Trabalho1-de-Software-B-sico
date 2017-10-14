@@ -1,3 +1,6 @@
+swap: EQU 0
+teste: EQU 1
+testando: EQU 0
 SECTION TEXT 
 INPUT OLD_DATA 
 LOAD OLD_DATA 

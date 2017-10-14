@@ -61,6 +61,7 @@ void lerarquivo(char* file_name) {
 	remove ("auxiliar");
 	remove ("MNT");
 	remove ("MDT");
+	remove ("EQU");
 	ofstream mfile("auxiliar", ios::app);
 	if (myfile.is_open())
 	{
@@ -83,11 +84,12 @@ void lerarquivo(char* file_name) {
 
 void passagem_zero() {
 
-	string line,nomedamacro;
+	string line, nomedamacro, nomeparam, valorparam;
 	ifstream meufile("auxiliar");
 	ofstream mntfile("MNT",ios::app);
 	ofstream mdtfile("MDT",ios::app);
-	int linhamdt=0;
+	ofstream equfile("EQU",ios::app);
+	int linhamdt=0,fim;
 	//ifstream mntfile("MNT");
 	//ifstream mdtfile("MDT");
 	if (meufile.is_open())
@@ -97,6 +99,7 @@ void passagem_zero() {
 		{
 			//cout << line +"\n";
 			size_t poscom=line.find("MACRO");
+			size_t posequ=line.find("EQU");
 			if (poscom!=line.npos)
 			{
 				cout << "\nTem uma MACRO aqui \n\n";
@@ -126,13 +129,36 @@ void passagem_zero() {
 							getline(meufile, line);
 						}while(line!="ENDMACRO");
 						
-			}//else cout << "\n Não tem uma MACRO aqui \n";
+			}else if(posequ!=line.npos) { 
+				cout << "\nTem um EQU aqui\n";
+				fim=line.size();
+				valorparam=line.substr(fim-1,fim);
+				//if(valorparam=="1"){
+					//salva na tabela de EQU o valor 
+				//}else if (valorparam=="0"){
+
+				//}else{ cout << "erro" << endl;}
+				cout << valorparam << endl;
+				posequ=line.find(":");
+				nomeparam=line.substr(0,posequ);
+				cout << nomeparam << endl;
+
+				//salva na tabela o nome e o valor do parametro
+				if (equfile.is_open())
+				{
+					equfile << nomeparam+"\t"; //o nome desse arquivo é MNT(Macro Name Table)
+					equfile << valorparam << endl;						
+				}
+				else cout << "\nArquivo nao pode ser aberto!!!\n\n";
+
+			}
 			//procura pelo IF e assim que ele é encontrado, verifica se dentro dele existe um parâmetro válido por um EQ
 		}
 		//cout << "\n";
 		meufile.close();
-		//mdtfile.close();
-		//mntfile.close();
+		mdtfile.close();
+		mntfile.close();
+		equfile.close();
 	}
 
 	else cout << "\nArquivo nao pode ser aberto!!!\n\n";
