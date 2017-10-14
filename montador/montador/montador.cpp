@@ -72,14 +72,11 @@ void lerarquivo(char* file_name) {
 	cout<<file_name;
 	ifstream myfile(file_name);
 
-<<<<<<< HEAD
-	remove("auxiliar");
-=======
 	remove ("auxiliar");
 	remove ("MNT");
 	remove ("MDT");
 	remove ("EQU");
->>>>>>> eb5dcb22949725b0a66b474d65352decd73df9d7
+	
 	ofstream mfile("auxiliar", ios::app);
 	if (myfile.is_open())
 	{
