@@ -10,6 +10,7 @@ SWAP: MACRO
 MULT DOIS;iuech9uhdcu udcuducohusnd;dushc9usehc
 STORE    TMP_DATA;0iechu0ueh0icuhes0i
 ENDMACRO
+IF teste
 STORE TMP_DATA;0iechu0ueh0icuhes0i
 LOAD OLD_DATA
 SUB TMP_DATA

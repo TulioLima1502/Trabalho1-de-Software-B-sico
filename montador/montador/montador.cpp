@@ -89,6 +89,7 @@ void passagem_zero() {
 	ofstream mntfile("MNT",ios::app);
 	ofstream mdtfile("MDT",ios::app);
 	ofstream equfile("EQU",ios::app);
+	ifstream equalfile("EQU");
 	int linhamdt=0,fim;
 	//ifstream mntfile("MNT");
 	//ifstream mdtfile("MDT");
@@ -100,6 +101,7 @@ void passagem_zero() {
 			//cout << line +"\n";
 			size_t poscom=line.find("MACRO");
 			size_t posequ=line.find("EQU");
+			size_t posif=line.find("IF");
 			if (poscom!=line.npos)
 			{
 				cout << "\nTem uma MACRO aqui \n\n";
@@ -147,10 +149,32 @@ void passagem_zero() {
 				if (equfile.is_open())
 				{
 					equfile << nomeparam+"\t"; //o nome desse arquivo é MNT(Macro Name Table)
-					equfile << valorparam << endl;						
+					equfile << valorparam << endl;		
 				}
 				else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 
+			}else if(posif!=line.npos) {
+				//verifica o que tem depois do IF
+				cout << "\nTem um IF aqui\n";
+				fim=line.size();
+				nomeparam=line.substr(posif+3,fim);
+				cout << nomeparam << endl;
+
+				//getline(equfile, line);
+				if (equalfile.is_open()){
+					//getline(equalfile, line);
+					while(getline(equalfile, line)){
+						cout << line << endl;
+						//equfile << line << endl;
+						//getline(equalfile, line);
+					}
+				}else cout << "Erro ao abrir o arquivo EQU";
+
+				//olha na tabela de EQU procurando o valor que está logo após o IF
+				//caso o valor não esteja na tabela, retorna um erro
+				//caso o valor esteja, verifica se o valor é 1 ou 0
+				//caso seja igual a zero remove a próxima linha
+				//caso seja igual a um adiciona a próxima linha
 			}
 			//procura pelo IF e assim que ele é encontrado, verifica se dentro dele existe um parâmetro válido por um EQ
 		}
