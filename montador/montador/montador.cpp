@@ -71,7 +71,7 @@ void lerarquivo(char* file_name) {
 				mfile << line << endl;
 			}
 		}
-		cout << "\n";
+		//cout << "\n";
 		myfile.close();
 	}
 
@@ -90,7 +90,7 @@ void passagem_zero() {
 	//ifstream mdtfile("MDT");
 	if (meufile.is_open())
 	{
-		cout << "\n";
+		//cout << "\n";
 		while (getline(meufile, line))
 		{
 			//cout << line +"\n";
@@ -128,7 +128,7 @@ void passagem_zero() {
 						//o nome desse arquivo é MDT(Macro Definition Table)
 			}//else cout << "\n Não tem uma MACRO aqui \n";
 		}
-		cout << "\n";
+		//cout << "\n";
 		meufile.close();
 		mdtfile.close();
 		mntfile.close();
