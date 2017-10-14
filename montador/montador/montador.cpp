@@ -74,8 +74,11 @@ void passagem_zero() {
 
 	string line,nomedamacro;
 	ifstream meufile("auxiliar");
-	ifstream mntfile("MNT");
-	ifstream mdtfile("MDT");
+	ofstream mntfile("MNT",ios::app);
+	ofstream mdtfile("MDT",ios::app);
+	int linhamdt=0;
+	//ifstream mntfile("MNT");
+	//ifstream mdtfile("MDT");
 	if (meufile.is_open())
 	{
 		cout << "\n";
@@ -93,7 +96,23 @@ void passagem_zero() {
 						//cout<<nomedamacro+"\n";
 						poscom=line.find(":");
 						nomedamacro=line.substr(0,poscom);
-						cout<<nomedamacro+"\n";
+						//cout<<nomedamacro+"\n";
+						 //inicialização da variável que diz qual linha estará o escopo da macro
+						if (mntfile.is_open())
+						{
+							mntfile << nomedamacro+"\t";
+							mntfile << linhamdt << endl;						
+						}
+						else cout << "\nArquivo nao pode ser aberto!!!\n\n";
+						
+						getline(meufile, line);
+
+						do{
+							//cout<<line;
+							mdtfile << line << endl;
+							linhamdt++;
+							getline(meufile, line);
+						}while(line!="ENDMACRO");
 
 						//o nome desse arquivo é MNT(Macro Name Table)
 				//Chama uma rotina para salvar em uma tabela o código da macro até o valor ENDMACRO
@@ -102,14 +121,12 @@ void passagem_zero() {
 		}
 		cout << "\n";
 		meufile.close();
+		mdtfile.close();
+		mntfile.close();
 	}
 
 	else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 
-}
-
-void salva_MNT() {
-	//Função para salvar o nome da Macro em um Arquivo MDT, salva a quantidade de parametros e o em qual linha da MDT o código será inserido
 }
 
 void montagem() {
