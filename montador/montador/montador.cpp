@@ -13,7 +13,7 @@ void filtro_comentarios(string line) {
 	string escreve;
 	int coluna;
 
-	ofstream mfile("auxiliar");
+	fstream mfile("auxiliar");
 	
 	if (poscom!=line.npos)
 	{
@@ -28,7 +28,8 @@ void filtro_comentarios(string line) {
 		if (mfile.is_open())
 		{
 			mfile << escreve << endl;
-			mfile.close();
+			//fprintf(auxiliar,"%s",escreve);
+			//mfile.close();
 			
 		}
 		else cout << "\nArquivo nao pode ser aberto!!!\n\n";
@@ -39,13 +40,14 @@ void filtro_comentarios(string line) {
 		//cout << line +"\n";
 		if (mfile.is_open())
 		{
-			mfile << line << endl;
-			mfile.close();
+			mfile << line << "\n";
+			//fprintf(auxiliar,"%s",escreve);
+			//mfile.close();
 		}
 		else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 		//escreve o arquivo direto no arquivo destino
 	}
-	//myfile.close();
+	mfile.close();
 
 }
 
