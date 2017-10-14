@@ -59,6 +59,8 @@ void lerarquivo(char* file_name) {
 	ifstream myfile(file_name);
 
 	remove ("auxiliar");
+	remove ("MNT");
+	remove ("MDT");
 	ofstream mfile("auxiliar", ios::app);
 	if (myfile.is_open())
 	{
@@ -130,8 +132,8 @@ void passagem_zero() {
 		}
 		//cout << "\n";
 		meufile.close();
-		mdtfile.close();
-		mntfile.close();
+		//mdtfile.close();
+		//mntfile.close();
 	}
 
 	else cout << "\nArquivo nao pode ser aberto!!!\n\n";
