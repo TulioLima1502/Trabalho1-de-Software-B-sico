@@ -10,45 +10,59 @@ using namespace std;
 
 string filtro_comentarios(string line) {
 	size_t poscom=line.find(";");
-	string escreve;
 	int coluna;
-
-	//ofstream mfile("auxiliar",ios::app);
 	
 	if (poscom!=(line).npos)
 	{
-		//cout << "tem um comentario ae:" << poscom;
 		coluna=poscom;
-		//remove o comentario
-		//pega linha e copia os caracteres até o poscom é feito com substr
-		//coluna tem o número da linha que tem o comentário
-		escreve=line.substr(0,coluna);
-		line = escreve;
-		//cout<<escreve+"\n";
-		//escreve o arquivo direto no arquivo intermediário
-		//if (mfile.is_open())
-		//{
-		//	mfile << escreve << endl;
-			//mfile.close();
-			
-		//}
-		//else cout << "\nArquivo nao pode ser aberto!!!\n\n";
+		line=line.substr(0,coluna);
 	}
-	else
-	{
-		//cout << "\n nem tem comentario aqui \n";
-		//cout << line +"\n";
-		//if (mfile.is_open())
-		//{
-		//	mfile << line << endl;
-			//mfile.close();
-		//}
-		//else cout << "\nArquivo nao pode ser aberto!!!\n\n";
-		//escreve o arquivo direto no arquivo destino
-	}
-	//mfile.close();
-
 	return(line);
+}
+
+string formato_padrao(string line) {
+	size_t posspace;
+	size_t postab = line.find("\t");
+
+	while (postab!=line.npos) 						//loop que tira tabs e troca por espacos.
+	{
+		if (postab==0){
+			line.erase(line.begin()+postab);
+		}
+		else {
+			line.replace(line.begin()+postab, line.begin()+postab+1," ");
+		}
+		postab=line.find("\t");
+	}
+
+	posspace = line.find(" ");					// loop que tira espacos a mais.
+	while (posspace!=line.npos) {				// o formato padrao eh com todos argumentos 
+		if (posspace==0) {						// com apenas um espaco entre eles.
+			do {
+				line.erase(line.begin()+posspace);
+				posspace=line.find(" ");	
+			} while (posspace==0);		
+		}
+		else
+		{
+			posspace=line.find("  ");
+			while (posspace!=line.npos) 
+			{
+				line.erase(line.begin()+posspace);
+				posspace=line.find("  ");
+			}
+		}
+	}
+	if (line[line.size()-1]==' ') {      //retira espacos no final
+		line.pop_back();
+	}
+
+	if (line=="\n") {					//se a linha se resumir a uma quebra de linha,
+		line = "";						//a mesma eh descartada.
+	}
+
+
+	return (line);
 }
 
 void lerarquivo(char* file_name) { 
@@ -58,7 +72,7 @@ void lerarquivo(char* file_name) {
 	cout<<file_name;
 	ifstream myfile(file_name);
 
-	remove ("auxiliar");
+	remove("auxiliar");
 	ofstream mfile("auxiliar", ios::app);
 	if (myfile.is_open())
 	{
@@ -66,12 +80,13 @@ void lerarquivo(char* file_name) {
 		while (getline(myfile, line))
 		{
 			line=filtro_comentarios(line);
-			if (mfile.is_open())
+			line=formato_padrao(line); 	// remove tabulacoes, espacos extras e quebras de linhas.
+			if (mfile.is_open() && line!="")
 			{
 				mfile << line << endl;
 			}
 		}
-		//cout << "\n";
+		cout << "\n";
 		myfile.close();
 	}
 
@@ -90,7 +105,7 @@ void passagem_zero() {
 	//ifstream mdtfile("MDT");
 	if (meufile.is_open())
 	{
-		//cout << "\n";
+		cout << "\n";
 		while (getline(meufile, line))
 		{
 			//cout << line +"\n";
@@ -128,7 +143,7 @@ void passagem_zero() {
 						//o nome desse arquivo é MDT(Macro Definition Table)
 			}//else cout << "\n Não tem uma MACRO aqui \n";
 		}
-		//cout << "\n";
+		cout << "\n";
 		meufile.close();
 		mdtfile.close();
 		mntfile.close();
@@ -160,7 +175,7 @@ int main(int argc, char* argv[]) {
 	
 	file_name = argv[2]; // passar para learquivo(). eh o nome do arquivo .asm.
 	lerarquivo(argv[2]);
-	passagem_zero();
+	//passagem_zero();
 	montagem();
 	codigo_objeto();
 	return 0;
