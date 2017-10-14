@@ -251,7 +251,7 @@ void passagem_zero() {
 
 					if(remove==1){
 						getline(meufile, line);
-						cout << line;
+						//cout << line;
 					}
 				}else cout << "Erro ao abrir o arquivo EQU";
 				//caso seja igual a zero remove a próxima linha
