@@ -72,22 +72,27 @@ void lerarquivo(char* file_name) {
 
 void passagem_zero() {
 
-	string line;
+	string line,nomedamacro;
 	ifstream meufile("auxiliar");
+	ifstream mntfile("MNT");
+	ifstream mdtfile("MDT");
 	if (meufile.is_open())
 	{
 		cout << "\n";
 		while (getline(meufile, line))
 		{
-			cout << line +"\n";
+			//cout << line +"\n";
 			size_t poscom=line.find("MACRO");
 			if (poscom!=line.npos)
 			{
 				cout << "\nTem uma MACRO aqui \n\n";
 				//salva aqui o nome das MACROS definidas no código
-				//Chama uma rotina para salvar em uma tabela o nome da macro
-						//Pega a linha em que foi achada a macro, e encontra o nome que vem antes dos ':' 
-						//o nome desse arquivo é MNT(MAcro Name Table)
+				//Chama uma rotina para salvar em um arquivo o nome da macro, a quantidade de parametros e a linha que será adicionada na MDT
+						//Pega a linha em que foi achada a macro, e encontra o nome que vem antes dos ':'
+						nomedamacro=line.substr(0,poscom);
+						cout<<nomedamacro+"\n";
+
+						//o nome desse arquivo é MNT(Macro Name Table)
 				//Chama uma rotina para salvar em uma tabela o código da macro até o valor ENDMACRO
 						//o nome desse arquivo é MDT(Macro Definition Table)
 			}//else cout << "\n Não tem uma MACRO aqui \n";
@@ -98,6 +103,10 @@ void passagem_zero() {
 
 	else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 
+}
+
+void salva_MNT() {
+	//Função para salvar o nome da Macro em um Arquivo MDT, salva a quantidade de parametros e o em qual linha da MDT o código será inserido
 }
 
 void montagem() {
