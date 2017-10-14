@@ -98,3 +98,6 @@ int main(int argc, char* argv[]) {
 	codigo_objeto();
 	return 0;
 }
+
+//pré processamento completo mas com resalvas que tem que ser corrigidas
+//Realizar a passagem 0 antes da passagem única de acordo com a tabela que tem no slides
