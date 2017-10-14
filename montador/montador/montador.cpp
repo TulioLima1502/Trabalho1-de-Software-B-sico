@@ -54,7 +54,8 @@ string formato_padrao(string line) {
 		}
 	}
 	if (line[line.size()-1]==' ') {      //retira espacos no final
-		line.pop_back();
+		size_t posfinal = line.size()-1;
+		line.erase(line.begin()+posfinal);
 	}
 
 	if (line=="\n") {					//se a linha se resumir a uma quebra de linha,
@@ -308,7 +309,7 @@ int main(int argc, char* argv[]) {
 	
 	file_name = argv[2]; // passar para learquivo(). eh o nome do arquivo .asm.
 	lerarquivo(argv[2]);
-	//passagem_zero();
+	passagem_zero();
 	montagem();
 	codigo_objeto();
 	return 0;
