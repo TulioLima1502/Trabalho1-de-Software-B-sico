@@ -13,7 +13,7 @@ void filtro_comentarios(string line) {
 	string escreve;
 	int coluna;
 
-	fstream mfile("auxiliar");
+	ofstream mfile("auxiliar",ios::app);
 	
 	if (poscom!=line.npos)
 	{
@@ -28,7 +28,6 @@ void filtro_comentarios(string line) {
 		if (mfile.is_open())
 		{
 			mfile << escreve << endl;
-			//fprintf(auxiliar,"%s",escreve);
 			//mfile.close();
 			
 		}
@@ -40,8 +39,7 @@ void filtro_comentarios(string line) {
 		//cout << line +"\n";
 		if (mfile.is_open())
 		{
-			mfile << line << "\n";
-			//fprintf(auxiliar,"%s",escreve);
+			mfile << line << endl;
 			//mfile.close();
 		}
 		else cout << "\nArquivo nao pode ser aberto!!!\n\n";
