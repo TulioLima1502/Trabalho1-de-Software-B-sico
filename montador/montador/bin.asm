@@ -4,8 +4,8 @@ LOAD OLD_DATA ;eae manin
 L1: DIV DOIS   ;uasdchuashbdcosanoidcnb
 STORE  NEW_DATA ;wiudchuhdc9uhsd9ufch
 MULT DOIS;iuech9uhdcu udcuducohusnd;dushc9usehc
-STORE TMP_DATA;0iechu0ueh0icuhes0i
-SWAP: MACRO
+STORE    TMP_DATA;0iechu0ueh0icuhes0i
+SWAP:      MACRO
 LOAD OLD_DATA
 SUB TMP_DATA
 STORE TMP_DATA

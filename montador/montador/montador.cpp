@@ -8,14 +8,14 @@
 
 using namespace std;
 
-void filtro_comentarios(string line) {
+string filtro_comentarios(string line) {
 	size_t poscom=line.find(";");
 	string escreve;
 	int coluna;
 
-	ofstream mfile("auxiliar",ios::app);
+	//ofstream mfile("auxiliar",ios::app);
 	
-	if (poscom!=line.npos)
+	if (poscom!=(line).npos)
 	{
 		//cout << "tem um comentario ae:" << poscom;
 		coluna=poscom;
@@ -23,30 +23,32 @@ void filtro_comentarios(string line) {
 		//pega linha e copia os caracteres até o poscom é feito com substr
 		//coluna tem o número da linha que tem o comentário
 		escreve=line.substr(0,coluna);
+		line = escreve;
 		//cout<<escreve+"\n";
 		//escreve o arquivo direto no arquivo intermediário
-		if (mfile.is_open())
-		{
-			mfile << escreve << endl;
+		//if (mfile.is_open())
+		//{
+		//	mfile << escreve << endl;
 			//mfile.close();
 			
-		}
-		else cout << "\nArquivo nao pode ser aberto!!!\n\n";
+		//}
+		//else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 	}
 	else
 	{
 		//cout << "\n nem tem comentario aqui \n";
 		//cout << line +"\n";
-		if (mfile.is_open())
-		{
-			mfile << line << endl;
+		//if (mfile.is_open())
+		//{
+		//	mfile << line << endl;
 			//mfile.close();
-		}
-		else cout << "\nArquivo nao pode ser aberto!!!\n\n";
+		//}
+		//else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 		//escreve o arquivo direto no arquivo destino
 	}
-	mfile.close();
+	//mfile.close();
 
+	return(line);
 }
 
 void lerarquivo(char* file_name) { 
@@ -55,12 +57,19 @@ void lerarquivo(char* file_name) {
 	string line;
 	cout<<file_name;
 	ifstream myfile(file_name);
+
+	remove ("auxiliar");
+	ofstream mfile("auxiliar", ios::app);
 	if (myfile.is_open())
 	{
 		cout << "\n";
 		while (getline(myfile, line))
 		{
-			filtro_comentarios(line);
+			line=filtro_comentarios(line);
+			if (mfile.is_open())
+			{
+				mfile << line << endl;
+			}
 		}
 		cout << "\n";
 		myfile.close();
