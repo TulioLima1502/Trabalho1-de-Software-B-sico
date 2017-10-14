@@ -70,7 +70,30 @@ void lerarquivo(char* file_name) {
 
 }
 
+void passagem_zero() {
 
+	string line;
+	ifstream meufile("auxiliar");
+	if (meufile.is_open())
+	{
+		cout << "\n";
+		while (getline(meufile, line))
+		{
+			cout << line +"\n";
+			size_t poscom=line.find("MACRO");
+			if (poscom!=line.npos)
+			{
+				cout << "\nTem uma MACRO aqui \n\n";
+				//filtro_comentarios(line);
+			}//else cout << "\n Não tem uma MACRO aqui \n";
+		}
+		cout << "\n";
+		meufile.close();
+	}
+
+	else cout << "\nArquivo nao pode ser aberto!!!\n\n";
+
+}
 
 void montagem() {
 	//faz a conversão do código conforme a passagem única
@@ -94,6 +117,7 @@ int main(int argc, char* argv[]) {
 	
 	file_name = argv[2]; // passar para learquivo(). eh o nome do arquivo .asm.
 	lerarquivo(argv[2]);
+	passagem_zero();
 	montagem();
 	codigo_objeto();
 	return 0;
