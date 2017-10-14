@@ -10,16 +10,42 @@ using namespace std;
 
 void filtro_comentarios(string line) {
 	size_t poscom=line.find(";");
+	string escreve;
+	int coluna;
 
-
+	ofstream mfile("auxiliar");
+	
 	if (poscom!=line.npos)
 	{
-		cout << "tem um comentario ae:" << poscom;
+		//cout << "tem um comentario ae:" << poscom;
+		coluna=poscom;
+		//remove o comentario
+		//pega linha e copia os caracteres até o poscom é feito com substr
+		//coluna tem o número da linha que tem o comentário
+		escreve=line.substr(0,coluna);
+		//cout<<escreve+"\n";
+		//escreve o arquivo direto no arquivo intermediário
+		if (mfile.is_open())
+		{
+			mfile << escreve << endl;
+			mfile.close();
+			
+		}
+		else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 	}
 	else
 	{
-		cout << "\n nem tem comentario aqui \n";
+		//cout << "\n nem tem comentario aqui \n";
+		//cout << line +"\n";
+		if (mfile.is_open())
+		{
+			mfile << line << endl;
+			mfile.close();
+		}
+		else cout << "\nArquivo nao pode ser aberto!!!\n\n";
+		//escreve o arquivo direto no arquivo destino
 	}
+	//myfile.close();
 
 }
 
@@ -27,7 +53,7 @@ void lerarquivo(char* file_name) {
 	//cout<<nome;
 	//char name[] = {nome};
 	string line;
-	//cout<<name;
+	cout<<file_name;
 	ifstream myfile(file_name);
 	if (myfile.is_open())
 	{
