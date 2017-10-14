@@ -89,8 +89,8 @@ void passagem_zero() {
 				//salva aqui o nome das MACROS definidas no código
 				//Chama uma rotina para salvar em um arquivo o nome da macro, a quantidade de parametros e a linha que será adicionada na MDT
 						//Pega a linha em que foi achada a macro, e encontra o nome que vem antes dos ':'
-						nomedamacro=line.substr(0,poscom);
-						cout<<nomedamacro+"\n";
+						//nomedamacro=line.substr(0,poscom);
+						//cout<<nomedamacro+"\n";
 						poscom=line.find(":");
 						nomedamacro=line.substr(0,poscom);
 						cout<<nomedamacro+"\n";
