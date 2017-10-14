@@ -84,7 +84,12 @@ void passagem_zero() {
 			if (poscom!=line.npos)
 			{
 				cout << "\nTem uma MACRO aqui \n\n";
-				//filtro_comentarios(line);
+				//salva aqui o nome das MACROS definidas no código
+				//Chama uma rotina para salvar em uma tabela o nome da macro
+						//Pega a linha em que foi achada a macro, e encontra o nome que vem antes dos ':' 
+						//o nome desse arquivo é MNT(MAcro Name Table)
+				//Chama uma rotina para salvar em uma tabela o código da macro até o valor ENDMACRO
+						//o nome desse arquivo é MDT(Macro Definition Table)
 			}//else cout << "\n Não tem uma MACRO aqui \n";
 		}
 		cout << "\n";

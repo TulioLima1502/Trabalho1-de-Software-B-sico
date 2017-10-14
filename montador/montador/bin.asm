@@ -6,7 +6,6 @@ STORE  NEW_DATA ;wiudchuhdc9uhsd9ufch
 MULT DOIS;iuech9uhdcu udcuducohusnd;dushc9usehc
 STORE TMP_DATA;0iechu0ueh0icuhes0i
 LOAD OLD_DATA
-Mod_B: MACRO ; uehcuhbsiudchbu9h
 SUB TMP_DATA
 STORE TMP_DATA
 OUTPUT TMP_DATA
