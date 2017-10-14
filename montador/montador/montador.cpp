@@ -84,13 +84,14 @@ void lerarquivo(char* file_name) {
 
 void passagem_zero() {
 
-	string line, nomedamacro, nomeparam, valorparam;
+	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ;
 	ifstream meufile("auxiliar");
 	ofstream mntfile("MNT",ios::app);
 	ofstream mdtfile("MDT",ios::app);
 	ofstream equfile("EQU",ios::app);
 	ifstream equalfile("EQU");
-	int linhamdt=0,fim;
+	int linhamdt=0,fim,fimequ;
+	bool remove;
 	//ifstream mntfile("MNT");
 	//ifstream mdtfile("MDT");
 	if (meufile.is_open())
@@ -102,8 +103,7 @@ void passagem_zero() {
 			size_t poscom=line.find("MACRO");
 			size_t posequ=line.find("EQU");
 			size_t posif=line.find("IF");
-			if (poscom!=line.npos)
-			{
+			if (poscom!=line.npos){
 				cout << "\nTem uma MACRO aqui \n\n";
 				//salva aqui o nome das MACROS definidas no código
 				//Chama uma rotina para salvar em um arquivo o nome da macro, a quantidade de parametros e a linha que será adicionada na MDT
@@ -129,6 +129,59 @@ void passagem_zero() {
 							mdtfile << line << endl;
 							linhamdt++;
 							getline(meufile, line);
+							posif=line.find("IF");
+							if(posif!=line.npos) {
+								//verifica o que tem depois do IF
+								cout << "\nTem um IF aqui\n";
+								fim=line.size();
+								nomeparam=line.substr(posif+3,fim);
+								cout << nomeparam << endl;
+				
+								//getline(equfile, line);
+								if (equalfile.is_open()){
+									//getline(equalfile, line);
+									while(getline(equalfile, line)){
+										//cout << line << endl;
+										//le a linha ate o espaço depois disso
+										posequ=line.find("\t");
+										//depois pega o valor até o espaço e compara com o if que queremos
+										nomeequ=line.substr(0,posequ);
+										fimequ=line.size();
+										valorequ=line.substr(posequ+1,fimequ);
+										line.substr(posequ,fim);
+										//cout << nomeequ << endl;
+										//olha na tabela de EQU procurando o valor que está logo após o IF
+										if(nomeequ==nomeparam){
+											//parametro existe na tabela e podemos verificar o seu valor
+											//cout << nomeequ << endl;
+											//cout << valorequ << endl;
+											//verifica o valor de nomeequ
+											if(valorequ=="1"){
+												//cout << "Deixa a linha\n";
+												remove=0;
+											}else if(valorequ=="0"){
+												//cout << "Remove a linha\n";
+												remove=1;
+												cout << remove;
+											}
+											//se for 1 adiciona a linha posterior ao if
+											//se for 0 remove a linha posterior ao if
+											//caso o valor não esteja na tabela, retorna um erro
+											//inserir erro aqui!!!
+										}
+										//equfile << line << endl;
+										//getline(equalfile, line);
+									}
+				
+									if(remove==1){
+										getline(meufile, line);
+										getline(meufile, line);
+										//cout << line;
+									}
+								}else cout << "Erro ao abrir o arquivo EQU";
+								//caso seja igual a zero remove a próxima linha
+								//caso seja igual a um adiciona a próxima linha
+							}
 						}while(line!="ENDMACRO");
 						
 			}else if(posequ!=line.npos) { 
@@ -164,15 +217,43 @@ void passagem_zero() {
 				if (equalfile.is_open()){
 					//getline(equalfile, line);
 					while(getline(equalfile, line)){
-						cout << line << endl;
+						//cout << line << endl;
+						//le a linha ate o espaço depois disso
+						posequ=line.find("\t");
+						//depois pega o valor até o espaço e compara com o if que queremos
+						nomeequ=line.substr(0,posequ);
+						fimequ=line.size();
+						valorequ=line.substr(posequ+1,fimequ);
+						line.substr(posequ,fim);
+						//cout << nomeequ << endl;
+						//olha na tabela de EQU procurando o valor que está logo após o IF
+						if(nomeequ==nomeparam){
+							//parametro existe na tabela e podemos verificar o seu valor
+							//cout << nomeequ << endl;
+							//cout << valorequ << endl;
+							//verifica o valor de nomeequ
+							if(valorequ=="1"){
+								//cout << "Deixa a linha\n";
+								remove=0;
+							}else if(valorequ=="0"){
+								//cout << "Remove a linha\n";
+								remove=1;
+								cout << remove;
+							}
+							//se for 1 adiciona a linha posterior ao if
+							//se for 0 remove a linha posterior ao if
+							//caso o valor não esteja na tabela, retorna um erro
+							//inserir erro aqui!!!
+						}
 						//equfile << line << endl;
 						//getline(equalfile, line);
 					}
-				}else cout << "Erro ao abrir o arquivo EQU";
 
-				//olha na tabela de EQU procurando o valor que está logo após o IF
-				//caso o valor não esteja na tabela, retorna um erro
-				//caso o valor esteja, verifica se o valor é 1 ou 0
+					if(remove==1){
+						getline(meufile, line);
+						cout << line;
+					}
+				}else cout << "Erro ao abrir o arquivo EQU";
 				//caso seja igual a zero remove a próxima linha
 				//caso seja igual a um adiciona a próxima linha
 			}

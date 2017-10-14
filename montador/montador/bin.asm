@@ -1,5 +1,5 @@
 swap: EQU 0
-teste: EQU 1
+teste: EQU 0
 testando: EQU 0
 SECTION TEXT ;uwdhcausbdcisip saudchuihsabdcu9bas
 INPUT OLD_DATA ;ichauhc
@@ -10,16 +10,14 @@ SWAP: MACRO
 MULT DOIS;iuech9uhdcu udcuducohusnd;dushc9usehc
 STORE    TMP_DATA;0iechu0ueh0icuhes0i
 ENDMACRO
-IF teste
 STORE TMP_DATA;0iechu0ueh0icuhes0i
 LOAD OLD_DATA
 SUB TMP_DATA
-swap: MACRO
 STORE TMP_DATA
 OUTPUT TMP_DATA
+IF teste
 COPY NEW_DATA OLD_DATA
 LOAD OLD_DATA
-ENDMACRO
 JMPP L1
 STOP
 SECTION DATA
