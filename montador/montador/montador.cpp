@@ -91,6 +91,9 @@ void passagem_zero() {
 						//Pega a linha em que foi achada a macro, e encontra o nome que vem antes dos ':'
 						nomedamacro=line.substr(0,poscom);
 						cout<<nomedamacro+"\n";
+						poscom=line.find(":");
+						nomedamacro=line.substr(0,poscom);
+						cout<<nomedamacro+"\n";
 
 						//o nome desse arquivo é MNT(Macro Name Table)
 				//Chama uma rotina para salvar em uma tabela o código da macro até o valor ENDMACRO
