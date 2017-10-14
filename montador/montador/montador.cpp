@@ -111,24 +111,23 @@ void passagem_zero() {
 						 //inicialização da variável que diz qual linha estará o escopo da macro
 						if (mntfile.is_open())
 						{
-							mntfile << nomedamacro+"\t";
+							mntfile << nomedamacro+"\t"; //o nome desse arquivo é MNT(Macro Name Table)
 							mntfile << linhamdt << endl;						
 						}
 						else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 						
 						getline(meufile, line);
-
+						//Chama uma rotina para salvar em uma tabela o código da macro até o valor ENDMACRO
+						//o nome desse arquivo é MDT(Macro Definition Table)
 						do{
 							//cout<<line;
 							mdtfile << line << endl;
 							linhamdt++;
 							getline(meufile, line);
 						}while(line!="ENDMACRO");
-
-						//o nome desse arquivo é MNT(Macro Name Table)
-				//Chama uma rotina para salvar em uma tabela o código da macro até o valor ENDMACRO
-						//o nome desse arquivo é MDT(Macro Definition Table)
+						
 			}//else cout << "\n Não tem uma MACRO aqui \n";
+			//procura pelo IF e assim que ele é encontrado, verifica se dentro dele existe um parâmetro válido por um EQ
 		}
 		//cout << "\n";
 		meufile.close();
