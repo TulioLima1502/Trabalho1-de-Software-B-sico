@@ -146,8 +146,8 @@ void passagem_zero() {
 							mdtfile << line << endl;
 							linhamdt++;
 							getline(meufile, line);
-							posif=line.find("IF");
-							if(posif!=line.npos) {
+							//posif=line.find("IF");
+							/*if(posif!=line.npos) {
 								//verifica o que tem depois do IF
 								cout << "\nTem um IF aqui\n";
 								fim=line.size();
@@ -198,7 +198,7 @@ void passagem_zero() {
 								}else cout << "Erro ao abrir o arquivo EQU";
 								//caso seja igual a zero remove a próxima linha
 								//caso seja igual a um adiciona a próxima linha
-							}
+							}*/
 						}while(line!="ENDMACRO");
 						
 			}else if(posequ!=line.npos) { 
@@ -317,3 +317,9 @@ int main(int argc, char* argv[]) {
 
 //pré processamento completo mas com resalvas que tem que ser corrigidas
 //Realizar a passagem 0 antes da passagem única de acordo com a tabela que tem no slides
+
+// com o código que temos, adicionar o preprocesamento com -p
+// o que é preciso ser feito é pegar a função que cria a MNT e MDT e adaptar para resolver apenas os EQU IF
+// e depois disso salva em um arquivo para mostrar no final
+
+// -m para realizar a expansão da macros é só pegar o código que foi criado para expandir criar a MDT e MNT
