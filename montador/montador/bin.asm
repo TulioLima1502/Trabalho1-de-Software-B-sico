@@ -1,5 +1,5 @@
 swap: EQU 0
-teste: EQU 0
+teste: EQU 1
 testando: EQU 0
 SECTION TEXT       ;uwdhcausbdcisip saudchuihsabdcu9bas 
 INPUT           OLD_DATA           ;ichauhc

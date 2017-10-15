@@ -294,6 +294,7 @@ void pre_procesamento(char* file_name) {
 	int fim, posequ, fimequ, remover, teste;
 	ifstream meufile("auxiliar");
 	ofstream equfile("EQU",ios::app);
+	ofstream saidafile("saida",ios::app);
 	//ifstream equalfile("EQU");
 
 
@@ -360,11 +361,13 @@ void pre_procesamento(char* file_name) {
 							if(valorequ=="1"){
 								//cout << "Deixa a linha\n";
 								remover=0;
+								getline(meufile,line);
+								saidafile << line << endl;
 							}else if(valorequ=="0"){
 								//cout << "Remove a linha\n";
 								remover=1;
 								cout << remover << endl;
-								getline(equfile,line);
+								getline(meufile,line);
 							}
 							//se for 1 adiciona a linha posterior ao if
 							//se for 0 remove a linha posterior ao if
@@ -376,10 +379,11 @@ void pre_procesamento(char* file_name) {
 					}
 				}
 				else cout << "\nArquivo nao pode ser aberto EQU Este caralho!!!\n\n";
-			}
+			}else{saidafile << line << endl;}
 		}
 		equfile.close();
-		meufile.close();			
+		meufile.close();
+		saidafile.close();			
 	}
 }
 
