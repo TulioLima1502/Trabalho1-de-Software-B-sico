@@ -5,7 +5,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <cstring>
 
 using namespace std;
 
@@ -313,10 +312,10 @@ void pre_procesamento(char* file_name) {
 					valorparam=line.substr(fim-2,fim-1);
 					//cout << valorparam << endl;
 					
-					cout << valorparam << endl;
+					//cout << valorparam << endl;
 					posequ=line.find(":");
 					nomeparam=line.substr(0,posequ);
-					cout << nomeparam << endl;
+					//cout << nomeparam << endl;
 	
 					//salva na tabela o nome e o valor do parametro
 					if (equfile.is_open())
@@ -338,17 +337,26 @@ void pre_procesamento(char* file_name) {
 					if (equalfile.is_open()){
 						//getline(equalfile, line);
 						while(getline(equalfile, line)){
-							//cout << line << endl;
+							cout << line << endl;
 							//le a linha ate o espaço depois disso
 							posequ=line.find("\t");
 							//depois pega o valor até o espaço e compara com o if que queremos
 							nomeequ=line.substr(0,posequ);
-							fimequ=line.size();
-							valorequ=line.substr(posequ+2,fimequ);
-							line.substr(posequ,fim);
 							//cout << nomeequ << endl;
+							fimequ=line.size();
+							valorequ=line.substr(posequ+1,fimequ-1);
+							cout << valorequ << endl;
+							cout << "Este é o valor de nomeequ: "+nomeequ<< endl;
+							cout << nomeequ.size();
+							cout << "Este é o valor de nomeparam: "+nomeparam << endl;
+							cout << nomeparam.size();
+							cout << "Este é o valor de valorparam: "+valorparam << endl;
+							cout << valorparam.size();
+							line.substr(posequ,fim);
 							//olha na tabela de EQU procurando o valor que está logo após o IF
+
 							if(nomeequ==nomeparam){
+								cout << "entrou aqui" << endl;
 								//parametro existe na tabela e podemos verificar o seu valor
 								//cout << nomeequ << endl;
 								cout << valorequ << endl;
