@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstring>
 
 using namespace std;
 
@@ -77,6 +78,7 @@ void lerarquivo(char* file_name) {
 	remove ("MNT");
 	remove ("MDT");
 	remove ("EQU");
+	remove ("saida");
 	
 	ofstream mfile("auxiliar", ios::app);
 	if (myfile.is_open())
@@ -287,6 +289,110 @@ void passagem_zero() {
 
 }
 
+void pre_procesamento(char* file_name) {
+	
+		string line, nomeparam, valorparam, nomeequ, valorequ;
+		ifstream meufile("auxiliar");
+		ofstream equfile("EQU",ios::app);
+		ifstream equalfile("EQU");
+		ofstream saidafile(file_name,ios::app);
+		int linhamdt=0,fim,fimequ;
+		int remove;
+
+		if (meufile.is_open())
+		{
+			cout << "\n";
+			while (getline(meufile, line))
+			{
+				
+				size_t posequ=line.find("EQU");
+				size_t posif=line.find("IF");
+				if(posequ!=line.npos) { 
+					cout << "\nTem um EQU aqui\n";
+					fim=line.size();
+					valorparam=line.substr(fim-2,fim-1);
+					//cout << valorparam << endl;
+					
+					cout << valorparam << endl;
+					posequ=line.find(":");
+					nomeparam=line.substr(0,posequ);
+					cout << nomeparam << endl;
+	
+					//salva na tabela o nome e o valor do parametro
+					if (equfile.is_open())
+					{
+						equfile << nomeparam+"\t"; //o nome desse arquivo é MNT(Macro Name Table)
+						equfile << valorparam << endl;
+						//cout << valorparam << endl;	
+					}
+					else cout << "\nArquivo nao pode ser aberto!!!\n\n";
+	
+				}else if(posif!=line.npos) {
+					//verifica o que tem depois do IF
+					cout << "\nTem um IF aqui\n";
+					fim=line.size();
+					nomeparam=line.substr(posif+3,fim);
+					cout << nomeparam << endl;
+	
+					//getline(equfile, line);
+					if (equalfile.is_open()){
+						//getline(equalfile, line);
+						while(getline(equalfile, line)){
+							//cout << line << endl;
+							//le a linha ate o espaço depois disso
+							posequ=line.find("\t");
+							//depois pega o valor até o espaço e compara com o if que queremos
+							nomeequ=line.substr(0,posequ);
+							fimequ=line.size();
+							valorequ=line.substr(posequ+2,fimequ);
+							line.substr(posequ,fim);
+							//cout << nomeequ << endl;
+							//olha na tabela de EQU procurando o valor que está logo após o IF
+							if(nomeequ==nomeparam){
+								//parametro existe na tabela e podemos verificar o seu valor
+								//cout << nomeequ << endl;
+								cout << valorequ << endl;
+								//verifica o valor de nomeequ
+								if(valorequ=="1"){
+									cout << "Deixa a linha\n";
+									saidafile << line << endl;
+									
+								}else if(valorequ=="0"){
+									cout << "Remove a linha\n";
+									remove=1;
+									cout << remove << endl;
+									getline(meufile, line);
+									getline(meufile,line);
+									
+								}
+								//se for 1 adiciona a linha posterior ao if
+								//se for 0 remove a linha posterior ao if
+								//caso o valor não esteja na tabela, retorna um erro
+								//inserir erro aqui!!!
+							}
+							//equfile << line << endl;
+							//getline(equalfile, line);
+						}
+
+					}else cout << "Erro ao abrir o arquivo EQU";
+					//caso seja igual a zero remove a próxima linha
+					//caso seja igual a um adiciona a próxima linha
+				}else {
+					saidafile << line << endl;
+				}
+				//procura pelo IF e assim que ele é encontrado, verifica se dentro dele existe um parâmetro válido por um EQ
+			}
+			cout << "\n";
+			meufile.close();
+			equfile.close();
+			saidafile.close();
+		}
+	
+		else cout << "\nArquivo nao pode ser aberto!!!\n\n";
+	
+	}
+	
+
 void montagem() {
 	//faz a conversão do código conforme a passagem única
 	//preenche as tabelas de simbolos e uso
@@ -305,13 +411,21 @@ int main(int argc, char* argv[]) {
 	//entao eh basicamente ignorado. por isso, o argc na verdade vai ser o numero
 	//de argumentos mais um.
 	string file_name;
-	//verificar como é a chamada do programa pelo gcc
-	
+
 	file_name = argv[2]; // passar para learquivo(). eh o nome do arquivo .asm.
 	lerarquivo(argv[2]);
-	passagem_zero();
-	montagem();
-	codigo_objeto();
+
+	if (string(argv[1])=="-p"){
+		//nome=argv[2];
+		//nome.append(".pre");
+		//cout << newnome << endl;
+		pre_procesamento(argv[3]);
+	}else{
+		//passagem_zero();
+		//cout << argv[1];
+		//montagem();
+		//codigo_objeto();
+	}
 	return 0;
 }
 
@@ -319,6 +433,7 @@ int main(int argc, char* argv[]) {
 //Realizar a passagem 0 antes da passagem única de acordo com a tabela que tem no slides
 
 // com o código que temos, adicionar o preprocesamento com -p
+// cria o arquivo em que o código .pre será arquivado
 // o que é preciso ser feito é pegar a função que cria a MNT e MDT e adaptar para resolver apenas os EQU IF
 // e depois disso salva em um arquivo para mostrar no final
 
