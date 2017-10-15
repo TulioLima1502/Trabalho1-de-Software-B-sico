@@ -415,11 +415,22 @@ int main(int argc, char* argv[]) {
 		//nome.append(".pre");
 		//cout << newnome << endl;
 		pre_procesamento(argv[3]);
-	}else{
+	}else if (string(argv[1])=="-m"){
+
+		// realiza a expansãpo da macros em um arquivo com extensão .mcr
+		// utiliza o arquivo proveniente da passagem anterior
+		// Utiliza o algoritmo de expansão das macros que está na função de passagem zero
+
+		pre_procesamento(argv[3]);
+
 		//passagem_zero();
 		//cout << argv[1];
 		//montagem();
 		//codigo_objeto();
+	}else if (string(argv[1])=="-o"){
+		//Realiza a montagem do código depois de expandir as macros
+	}else {
+		cout << " Comando de execução não encontrado.    ERRO     " << endl;
 	}
 	return 0;
 }
