@@ -291,7 +291,7 @@ void passagem_zero() {
 void pre_procesamento(char* file_name) {
 	
 	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ;
-	int fim, posequ, fimequ, remover;
+	int fim, posequ, fimequ, remover, teste;
 	ifstream meufile("auxiliar");
 	ofstream equfile("EQU",ios::app);
 	//ifstream equalfile("EQU");
@@ -333,25 +333,29 @@ void pre_procesamento(char* file_name) {
 				fim=line.size();
 				size_t posif=line.find("IF");
 				nomeparam=line.substr(posif+3,fim);
+				teste = nomeparam.size();
+				nomeparam=line.substr(3,teste-1);	
 				cout << nomeparam << endl;
+				cout << nomeparam.size() << endl;
 				ifstream equfile("EQU");				
  				if(equfile.is_open()){
 					while(getline(equfile,line)){
-						cout << line << endl;
+						//cout << line << endl;
 						//le a linha ate o espaço depois disso
 						posequ=line.find("\t");
 						//depois pega o valor até o espaço e compara com o if que queremos
 						nomeequ=line.substr(0,posequ);
 						fimequ=line.size();
-						valorequ=line[fimequ];
+						valorequ=line[fimequ-1];
 						//line.substr(posequ,fim);
-						cout << nomeequ << endl;
-						cout << valorequ << endl;
+						cout << nomeequ.size() << endl;
+						cout << valorequ.size() << endl;
 						//olha na tabela de EQU procurando o valor que está logo após o IF
-						if(nomeequ==nomeparam){
+						if(nomeequ.compare(nomeparam)==0){
 							//parametro existe na tabela e podemos verificar o seu valor
-							//cout << nomeequ << endl;
-							//cout << valorequ << endl;
+							cout << nomeequ << endl;
+							cout << "aqui" <<endl;
+							cout << valorequ << endl;
 							//verifica o valor de nomeequ
 							if(valorequ=="1"){
 								//cout << "Deixa a linha\n";
@@ -359,7 +363,8 @@ void pre_procesamento(char* file_name) {
 							}else if(valorequ=="0"){
 								//cout << "Remove a linha\n";
 								remover=1;
-								cout << remover;
+								cout << remover << endl;
+								getline(equfile,line);
 							}
 							//se for 1 adiciona a linha posterior ao if
 							//se for 0 remove a linha posterior ao if
