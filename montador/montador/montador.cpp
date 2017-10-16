@@ -289,7 +289,50 @@ void passagem_zero() {
 }*/
 
 void expande_macro(char* file_name){
-	
+
+	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ;
+
+	ifstream meufile(file_name);
+	ofstream mntfile("MNT",ios::app);
+	ofstream mdtfile("MDT",ios::app);
+
+	int linhamdt=0;
+
+	if (meufile.is_open())
+	{
+		cout << "\n";
+		while (getline(meufile, line))
+		{
+			size_t poscom=line.find("MACRO");
+			if (poscom!=line.npos){
+				cout << "\nTem uma MACRO aqui \n\n";
+				//salva aqui o nome das MACROS definidas no código
+				//Chama uma rotina para salvar em um arquivo o nome da macro, a quantidade de parametros e a linha que será adicionada na MDT
+				//Pega a linha em que foi achada a macro, e encontra o nome que vem antes dos ':'
+				poscom=line.find(":");
+				nomedamacro=line.substr(0,poscom);
+				//inicialização da variável que diz qual linha estará o escopo da macro
+				cout << nomedamacro << endl;
+				if (mntfile.is_open())
+				{
+					mntfile << nomedamacro << "\t"; //o nome desse arquivo é MNT(Macro Name Table)
+					mntfile << linhamdt << endl;						
+				}else cout << "\nArquivo nao pode ser aberto!!!\n\n";
+				getline(meufile, line);
+				//Chama uma rotina para salvar em uma tabela o código da macro até o valor ENDMACRO
+				//o nome desse arquivo é MDT(Macro Definition Table)
+				do{
+					mdtfile << line << endl;
+					cout << line << endl;
+					linhamdt++;
+					getline(meufile,line);	
+				}while(line.find("ENDMACRO")!=line.npos);		
+			}
+		}
+	}
+	mntfile.close();
+	mdtfile.close();
+	meufile.close();
 }
 
 void pre_procesamento(char* file_name) {
