@@ -288,6 +288,10 @@ void passagem_zero() {
 
 }*/
 
+void expande_macro(char* file_name){
+	
+}
+
 void pre_procesamento(char* file_name) {
 	
 	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ;
@@ -387,7 +391,6 @@ void pre_procesamento(char* file_name) {
 	}
 }
 
-
 void montagem() {
 	//faz a conversão do código conforme a passagem única
 	//preenche as tabelas de simbolos e uso
@@ -411,20 +414,15 @@ int main(int argc, char* argv[]) {
 	lerarquivo(argv[2]);
 
 	if (string(argv[1])=="-p"){
-		//nome=argv[2];
-		//nome.append(".pre");
-		//cout << newnome << endl;
 		pre_procesamento(argv[3]);
 	}else if (string(argv[1])=="-m"){
-
-		// realiza a expansãpo da macros em um arquivo com extensão .mcr
-		// utiliza o arquivo proveniente da passagem anterior
-		// Utiliza o algoritmo de expansão das macros que está na função de passagem zero
-
 		pre_procesamento(argv[3]);
+		expande_macro(argv[3]);
+		// realiza a expansão das macros em um arquivo com extensão .mcr
+		// pega o arquivo da etapa anterior, le o que está nele e executa a criação da MNT e da MDT
+		// depois utiliza o algoritmo de expansão das macros que está na função de passagem zero
+		// mostra esse arquivo com as macros expandidas
 
-		//passagem_zero();
-		//cout << argv[1];
 		//montagem();
 		//codigo_objeto();
 	}else if (string(argv[1])=="-o"){
