@@ -296,7 +296,7 @@ void expande_macro(char* file_name){
 	ofstream mntfile("MNT",ios::app);
 	ofstream mdtfile("MDT",ios::app);
 
-	string termina="ENDMACRO\n";
+	string termina="ENDMACRO";
 	string comparando;
 
 	int linhamdt=0;
