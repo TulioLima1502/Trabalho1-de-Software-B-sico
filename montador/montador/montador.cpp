@@ -107,6 +107,7 @@ void expande_macro(char* file_name){
 	ifstream meufile(file_name);
 	ofstream mntfile("MNT",ios::app);
 	ofstream mdtfile("MDT",ios::app);
+	ofstream menosm("SAIDA.MCR", ios::app);
 
 	string termina="ENDMACRO";
 	string comparando;
@@ -118,6 +119,9 @@ void expande_macro(char* file_name){
 		cout << "\n";
 		while (getline(meufile, line))
 		{
+			cout << endl;
+			cout << line << endl;
+			cout << endl;
 			size_t poscom=line.find("MACRO");
 			if (poscom!=line.npos){
 				cout << "\nTem uma MACRO aqui \n\n";
@@ -133,24 +137,21 @@ void expande_macro(char* file_name){
 					mntfile << nomedamacro << "\t" << linhamdt << endl; //o nome desse arquivo é MNT(Macro Name Table)
 					getline(meufile,line);
 					do{
-						cout << "Essa eh a linha logo antes: " << line << endl;
 						mdtfile << line << endl;
 						getline(meufile,line);
-						cout << "logo depois da escrita: " << line << endl;
+						cout << line << endl;
 						comparando=line;
 						cout << "COmparacao: " << comparando.compare(termina) << endl;
 						linhamdt++;				
 					}while( ( comparando.compare(termina) != 0 ) );
 	
 					cout << "\n      finalizou a MACRO      \n" << endl;
-					getline(meufile,line);
-				}else cout << "\nArquivo nao pode ser aberto!!!\n\n";
+				}	else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 				//getline(meufile, line);
 				//Chama uma rotina para salvar em uma tabela o código da macro até o valor ENDMACRO
 				//o nome desse arquivo é MDT(Macro Definition Table)
 				//strcmp(pesq, agen[contador].nome) == 0
-				getline(meufile,line);
-
+				cout << line << endl;
 			}
 		}
 	}
@@ -200,7 +201,8 @@ void pre_procesamento(char* file_name) {
 				size_t posif=line.find("IF");
 				nomeparam=line.substr(posif+3,fim);
 				teste = nomeparam.size();
-				nomeparam=line.substr(3,teste-1);	
+				nomeparam=line.substr(3,teste);  // No PC do tulio: teste-1. No do barbosa: teste.
+				cout << line << endl;	
 				cout << nomeparam << endl;
 				cout << nomeparam.size() << endl;
 				ifstream equfile("EQU");				

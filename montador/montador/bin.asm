@@ -11,10 +11,13 @@ MULT        DOIS;iuech9uhdcu udcuducohusnd;dushc9usehc
 STORE     TMP_DATA;0iechu0ueh0icuhes0i
 STORE     MP_DATA;0iechu0ueh0icuhes0i
 ENDMACRO
+OIE: MACRO
 LOAD OLD_DATA
+IF testando
 SUB TMP_DATA
 STORE TMP_DATA
 OUTPUT TMP_DATA
+ENDMACRO
 IF     teste
     COPY NEW_DATA OLD_DATA
 LOAD     OLD_DATA   
