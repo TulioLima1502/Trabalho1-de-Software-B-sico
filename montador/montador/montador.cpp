@@ -79,7 +79,7 @@ void lerarquivo(char* file_name) {
 	remove ("EQU");
 	remove ("saida");
 	remove ("SAIDA.MCR");
-	
+
 	ofstream mfile("auxiliar", ios::app);
 	if (myfile.is_open())
 	{
@@ -156,9 +156,12 @@ void expande_macro(char* file_name){
 				//strcmp(pesq, agen[contador].nome) == 0
 				cout << line << endl;
 				// aqui comeca a escrever no .mcr
-				// por algum motivo ta escrevendo duas vezes
 			} else 
 				{
+					// Se for uma chamada de macro, aqui ela sera expandida
+					
+
+					// Se nao for definicao de macro nem chamada de macro, escreve direto no .mcr
 					if (menosm.is_open()) {  
 						menosm << line << endl;
 					} else cout << "Nao foi possivel abrir o arquivo .mcr! " << endl; 
