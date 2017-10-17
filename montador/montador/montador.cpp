@@ -132,22 +132,18 @@ void expande_macro(char* file_name){
 				{
 					mntfile << nomedamacro << "\t" << linhamdt << endl; //o nome desse arquivo é MNT(Macro Name Table)
 					getline(meufile,line);
-
-					while( ( line.compare("ENDMACRO") != 0 ) && (linhamdt<20)){
-						
+					do{
+						cout << "Essa eh a linha logo antes: " << line << endl;
 						mdtfile << line << endl;
-						cout << line << endl;
-						//comparando=line;
-						//cout << comparando << endl;
-						linhamdt++;	
 						getline(meufile,line);
-
-					}
-					//mdtfile << line << endl;
+						cout << "logo depois da escrita: " << line << endl;
+						comparando=line;
+						cout << "COmparacao: " << comparando.compare(termina) << endl;
+						linhamdt++;				
+					}while( ( comparando.compare(termina) != 0 ) );
 	
 					cout << "\n      finalizou a MACRO      \n" << endl;
-					//getline(meufile,line);
-				
+					getline(meufile,line);
 				}else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 				//getline(meufile, line);
 				//Chama uma rotina para salvar em uma tabela o código da macro até o valor ENDMACRO
@@ -155,18 +151,6 @@ void expande_macro(char* file_name){
 				//strcmp(pesq, agen[contador].nome) == 0
 				getline(meufile,line);
 
-				do{
-					cout << "Essa eh a linha logo antes: " << line << endl;
-					mdtfile << line << endl;
-					getline(meufile,line);
-					cout << "logo depois da escrita: " << line << endl;
-					comparando=line;
-					cout << "COmparacao: " << comparando.compare(termina) << endl;
-					linhamdt++;				
-				}while( ( comparando.compare(termina) != 0 ) );
-
-				cout << "\n      finalizou a MACRO      \n" << endl;
-				getline(meufile,line);
 			}
 		}
 	}
