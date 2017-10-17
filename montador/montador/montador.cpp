@@ -150,7 +150,6 @@ void expande_macro(char* file_name){
 					cout << "COmparacao: " << comparando.compare(termina) << endl;
 					linhamdt++;				
 				}while( ( comparando.compare(termina) != 0 ) );
-				mdtfile << line << endl;
 
 				cout << "\n      finalizou a MACRO      \n" << endl;
 				getline(meufile,line);
@@ -183,7 +182,7 @@ void pre_procesamento(char* file_name) {
 
 				//No computador do Túlio a próxima linha é -2, no do Barbosa é -1
 
-				valorparam=line[fim-2];
+				valorparam=line[fim-1];
 
 				posequ=line.find(":");
 				nomeparam=line.substr(0,posequ);
