@@ -142,12 +142,14 @@ void expande_macro(char* file_name){
 				getline(meufile,line);
 
 				do{
+					cout << "Essa eh a linha logo antes: " << line << endl;
 					mdtfile << line << endl;
 					getline(meufile,line);
-					cout << line << endl;
+					cout << "logo depois da escrita: " << line << endl;
 					comparando=line;
+					cout << "COmparacao: " << comparando.compare(termina) << endl;
 					linhamdt++;				
-				}while( ( comparando.compare(termina) == 0 ) );
+				}while( ( comparando.compare(termina) != 0 ) );
 				mdtfile << line << endl;
 
 				cout << "\n      finalizou a MACRO      \n" << endl;
