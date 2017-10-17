@@ -127,17 +127,32 @@ void expande_macro(char* file_name){
 				poscom=line.find(":");
 				nomedamacro=line.substr(0,poscom);
 				//inicialização da variável que diz qual linha estará o escopo da macro
-				cout << nomedamacro << endl;
+				//cout << nomedamacro << endl;
 				if (mntfile.is_open())
 				{
 					mntfile << nomedamacro << "\t" << linhamdt << endl; //o nome desse arquivo é MNT(Macro Name Table)
-					//mntfile << linhamdt << endl;	
-								
+					getline(meufile,line);
 
+					while( ( line.compare("ENDMACRO") != 0 ) && (linhamdt<20)){
+						
+						mdtfile << line << endl;
+						cout << line << endl;
+						//comparando=line;
+						//cout << comparando << endl;
+						linhamdt++;	
+						getline(meufile,line);
+
+					}
+					//mdtfile << line << endl;
+	
+					cout << "\n      finalizou a MACRO      \n" << endl;
+					//getline(meufile,line);
+				
 				}else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 				//getline(meufile, line);
 				//Chama uma rotina para salvar em uma tabela o código da macro até o valor ENDMACRO
 				//o nome desse arquivo é MDT(Macro Definition Table)
+<<<<<<< HEAD
 				//strcmp(pesq, agen[contador].nome) == 0
 				getline(meufile,line);
 
@@ -153,6 +168,10 @@ void expande_macro(char* file_name){
 
 				cout << "\n      finalizou a MACRO      \n" << endl;
 				getline(meufile,line);
+=======
+				//getline(meufile,line);
+				
+>>>>>>> df629beedcc7011572316a8bfaa76d3614ab2b6f
 			}
 		}
 	}
