@@ -131,16 +131,19 @@ void expande_macro(char* file_name){
 				if (mntfile.is_open())
 				{
 					mntfile << nomedamacro << "\t" << linhamdt << endl; //o nome desse arquivo é MNT(Macro Name Table)
-				
-					do{
-						getline(meufile,line);
+					getline(meufile,line);
+
+					while( ( line.compare("ENDMACRO") != 0 ) && (linhamdt<20)){
+						
 						mdtfile << line << endl;
 						cout << line << endl;
-						comparando=line;
-						cout << comparando << endl;
-						linhamdt++;				
-					}while( ( comparando.compare(termina) == 0 ) && (linhamdt<20));
-					mdtfile << line << endl;
+						//comparando=line;
+						//cout << comparando << endl;
+						linhamdt++;	
+						getline(meufile,line);
+
+					}
+					//mdtfile << line << endl;
 	
 					cout << "\n      finalizou a MACRO      \n" << endl;
 					//getline(meufile,line);
