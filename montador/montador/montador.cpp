@@ -330,7 +330,6 @@ void expande_macro(char* file_name){
 				getline(meufile,line);
 
 				do{
-					
 					mdtfile << line << endl;
 					getline(meufile,line);
 					cout << line << endl;
