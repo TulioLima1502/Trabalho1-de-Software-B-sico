@@ -355,7 +355,6 @@ void pre_procesamento(char* file_name) {
 	ifstream meufile("auxiliar");
 	ofstream equfile("EQU",ios::app);
 	ofstream saidafile("saida",ios::app);
-	//ifstream equalfile("EQU");
 
 
 	if (meufile.is_open()) 
@@ -366,19 +365,14 @@ void pre_procesamento(char* file_name) {
 			{
 				cout << "\nTem um EQU aqui\n";
 				fim=line.size();
-				//cout << fim;
-				//cout << "\n\n\n\n";
-				valorparam=line[fim-2];
-				//cout << valorparam.size()<<endl;
-				//if(valorparam=="1"){
-					//salva na tabela de EQU o valor 
-				//}else if (valorparam=="0"){
 
-				//}else{ cout << "erro" << endl;}
-				//cout << valorparam +"\n\n\n\n" << endl;
+
+				//No computador do Túlio a próxima linha é -2, no do Barbosa é -1
+
+				valorparam=line[fim-2];
+
 				posequ=line.find(":");
 				nomeparam=line.substr(0,posequ);
-				//cout << nomeparam + "\n" << endl;
 
 				//salva na tabela o nome e o valor do parametro
 				if (equfile.is_open())
@@ -401,7 +395,6 @@ void pre_procesamento(char* file_name) {
 				ifstream equfile("EQU");				
  				if(equfile.is_open()){
 					while(getline(equfile,line)){
-						//cout << line << endl;
 						//le a linha ate o espaço depois disso
 						posequ=line.find("\t");
 						//depois pega o valor até o espaço e compara com o if que queremos
@@ -419,12 +412,10 @@ void pre_procesamento(char* file_name) {
 							cout << valorequ << endl;
 							//verifica o valor de nomeequ
 							if(valorequ=="1"){
-								//cout << "Deixa a linha\n";
 								remover=0;
 								getline(meufile,line);
 								saidafile << line << endl;
 							}else if(valorequ=="0"){
-								//cout << "Remove a linha\n";
 								remover=1;
 								cout << remover << endl;
 								getline(meufile,line);
@@ -434,8 +425,7 @@ void pre_procesamento(char* file_name) {
 							//caso o valor não esteja na tabela, retorna um erro
 							//inserir erro aqui!!!
 						}
-						//equfile << line << endl;
-						//getline(equalfile, line);
+
 					}
 				}
 				else cout << "\nArquivo nao pode ser aberto EQU Este caralho!!!\n\n";
