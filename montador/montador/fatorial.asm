@@ -1,3 +1,5 @@
+rola: EQU 0
+wtf        :             EQU 1
 SECTION TEXT
 MUL_N: MACRO 
 MULT N

@@ -182,7 +182,7 @@ void pre_procesamento(char* file_name) {
 
 				//No computador do Túlio a próxima linha é -2, no do Barbosa é -1
 
-				valorparam=line[fim-2];
+				valorparam=line[fim-1];
 
 				posequ=line.find(":");
 				nomeparam=line.substr(0,posequ);
