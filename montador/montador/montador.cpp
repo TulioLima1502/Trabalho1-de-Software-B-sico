@@ -78,6 +78,7 @@ void lerarquivo(char* file_name) {
 	remove ("MDT");
 	remove ("EQU");
 	remove ("saida");
+	remove ("SAIDA.MCR");
 	
 	ofstream mfile("auxiliar", ios::app);
 	if (myfile.is_open())
@@ -122,6 +123,7 @@ void expande_macro(char* file_name){
 			cout << endl;
 			cout << line << endl;
 			cout << endl;
+			
 			size_t poscom=line.find("MACRO");
 			if (poscom!=line.npos){
 				cout << "\nTem uma MACRO aqui \n\n";
@@ -130,6 +132,7 @@ void expande_macro(char* file_name){
 				//Pega a linha em que foi achada a macro, e encontra o nome que vem antes dos ':'
 				poscom=line.find(":");
 				nomedamacro=line.substr(0,poscom);
+				cout << nomedamacro << endl;
 				//inicialização da variável que diz qual linha estará o escopo da macro
 				//cout << nomedamacro << endl;
 				if (mntfile.is_open())
@@ -152,9 +155,17 @@ void expande_macro(char* file_name){
 				//o nome desse arquivo é MDT(Macro Definition Table)
 				//strcmp(pesq, agen[contador].nome) == 0
 				cout << line << endl;
-			}
+				// aqui comeca a escrever no .mcr
+				// por algum motivo ta escrevendo duas vezes
+			} else 
+				{
+					if (menosm.is_open()) {  
+						menosm << line << endl;
+					} else cout << "Nao foi possivel abrir o arquivo .mcr! " << endl; 
+				}
 		}
 	}
+	menosm.close();	
 	mntfile.close();
 	mdtfile.close();
 	meufile.close();
