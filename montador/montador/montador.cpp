@@ -319,20 +319,28 @@ void expande_macro(char* file_name){
 				if (mntfile.is_open())
 				{
 					mntfile << nomedamacro << "\t" << linhamdt << endl; //o nome desse arquivo é MNT(Macro Name Table)
-					//mntfile << linhamdt << endl;						
+					//mntfile << linhamdt << endl;	
+								
+
 				}else cout << "\nArquivo nao pode ser aberto!!!\n\n";
 				//getline(meufile, line);
 				//Chama uma rotina para salvar em uma tabela o código da macro até o valor ENDMACRO
 				//o nome desse arquivo é MDT(Macro Definition Table)
+				//strcmp(pesq, agen[contador].nome) == 0
+				getline(meufile,line);
+
 				do{
+					
+					mdtfile << line << endl;
 					getline(meufile,line);
-					mdtfile << line;
 					cout << line << endl;
 					comparando=line;
 					linhamdt++;				
-				}while( ( comparando.compare(termina) == 0 ) ); //strcmp(pesq, agen[contador].nome) == 0
-				
-				cout << "      finalizou a MACRO      " << endl;
+				}while( ( comparando.compare(termina) == 0 ) );
+				mdtfile << line << endl;
+
+				cout << "\n      finalizou a MACRO      \n" << endl;
+				getline(meufile,line);
 			}
 		}
 	}
