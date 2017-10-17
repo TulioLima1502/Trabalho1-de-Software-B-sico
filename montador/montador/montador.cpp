@@ -152,7 +152,6 @@ void expande_macro(char* file_name){
 				//getline(meufile, line);
 				//Chama uma rotina para salvar em uma tabela o código da macro até o valor ENDMACRO
 				//o nome desse arquivo é MDT(Macro Definition Table)
-<<<<<<< HEAD
 				//strcmp(pesq, agen[contador].nome) == 0
 				getline(meufile,line);
 
@@ -168,10 +167,6 @@ void expande_macro(char* file_name){
 
 				cout << "\n      finalizou a MACRO      \n" << endl;
 				getline(meufile,line);
-=======
-				//getline(meufile,line);
-				
->>>>>>> df629beedcc7011572316a8bfaa76d3614ab2b6f
 			}
 		}
 	}
