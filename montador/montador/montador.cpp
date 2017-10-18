@@ -103,7 +103,7 @@ void lerarquivo(char* file_name) {
 
 void expande_macro(char* file_name){
 
-	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ;
+	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ, token, mntbusca, mdtbusca, mdtline;
 
 	ifstream meufile(file_name);
 	ofstream mntfile("MNT",ios::app);
@@ -113,16 +113,13 @@ void expande_macro(char* file_name){
 	string termina="ENDMACRO";
 	string comparando;
 
-	int linhamdt=0;
+	int linhamdt=0, contador, linhabusca;
 
 	if (meufile.is_open())
 	{
 		cout << "\n";
 		while (getline(meufile, line))
 		{
-			cout << endl;
-			cout << line << endl;
-			cout << endl;
 			
 			size_t poscom=line.find("MACRO");
 			if (poscom!=line.npos){
@@ -159,7 +156,44 @@ void expande_macro(char* file_name){
 			} else 
 				{
 					// Se for uma chamada de macro, aqui ela sera expandida
-					
+					size_t posdelimit = line.find(" ");
+					// Se nao tiver espacos, ou eh diretiva ou eh macro.
+					// Testa aqui se eh macro (pela mnt)
+					// Se nao for, tem que ser diretiva (verificar durante a montagem)
+					if (posdelimit == line.npos) {
+						ifstream mntfile("MNT");
+						if (mntfile.is_open()) {
+							while (getline(mntfile, mntbusca)) {
+								token = line;
+								size_t postab = mntbusca.find("\t");
+								cout << "Token: " << token << endl;
+								cout << "mntbusca: " << mntbusca << endl;
+								mdtbusca = mntbusca.substr(0, postab);
+								cout << "mdtbusca: " << mntbusca << endl;
+								// Se entrar nesse if, achou o nome da macro na mnt
+								// Vai agora entrar no if e ir na mdt.
+								if (mdtbusca.compare(token)==0) {
+									ifstream mdtfile("MDT");									
+									contador=0;
+
+									// NO PC DO TULIO PODE SER POSTAB+2!!!! <================================
+
+									linhabusca = mntbusca[postab+1];
+									cout << "linha da mdt: " << linhabusca << endl;
+									if (mdtfile.is_open()) {
+										while ((getline(mdtfile, mdtline)) && linhabusca!=contador) {
+											contador++;
+											cout << "contador: " << contador << endl;
+											cout << "linha da mdt: " << mdtline << endl;
+										}
+									} else cout << "Nao foi possivel abrir o arquivo MDT para busca" << endl;
+								} 
+							}
+							mdtfile.close();
+							mntfile.close();
+						} else cout << "Nao foi possivel abrir o arquivo MNT para expandir macros!" << endl;
+
+					}
 
 					// Se nao for definicao de macro nem chamada de macro, escreve direto no .mcr
 					if (menosm.is_open()) {  
