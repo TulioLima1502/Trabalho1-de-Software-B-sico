@@ -176,9 +176,10 @@ void expande_macro(char* file_name){
 									ifstream mdtfile("MDT");									
 									contador=0;
 
-									// NO PC DO TULIO PODE SER POSTAB+2!!!! <================================
+									// Esta parte esta para ser completa ainda.
+									// O linhabusca nao ta dando bom por enquanto.
 
-									linhabusca = mntbusca[postab+1];
+									linhabusca = mntbusca[postab];
 									cout << "linha da mdt: " << linhabusca << endl;
 									if (mdtfile.is_open()) {
 										while ((getline(mdtfile, mdtline)) && linhabusca!=contador) {
