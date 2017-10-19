@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -103,7 +104,7 @@ void lerarquivo(char* file_name) {
 
 void expande_macro(char* file_name){
 
-	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ, token, mntbusca, mdtbusca, mdtline;
+	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ, token, mntbusca, mdtbusca, mdtline, linhabusca, comparando;
 
 	ifstream meufile(file_name);
 	ofstream mntfile("MNT",ios::app);
@@ -111,9 +112,8 @@ void expande_macro(char* file_name){
 	ofstream menosm("SAIDA.MCR", ios::app);
 
 	string termina="ENDMACRO";
-	string comparando;
 
-	int linhamdt=0, contador, linhabusca;
+	int linhamdt=0, tam, contador=0, compara=0;
 
 	if (meufile.is_open())
 	{
@@ -170,23 +170,26 @@ void expande_macro(char* file_name){
 								cout << "mntbusca: " << mntbusca << endl;
 								mdtbusca = mntbusca.substr(0, postab);
 								cout << "mdtbusca: " << mntbusca << endl;
+								cout << mdtbusca.compare(token) << endl;
 								// Se entrar nesse if, achou o nome da macro na mnt
 								// Vai agora entrar no if e ir na mdt.
+
+								// Procura as macros, ainda nao expande mas ta quase la
+								
 								if (mdtbusca.compare(token)==0) {
 									ifstream mdtfile("MDT");									
-									contador=0;
 
-									// Esta parte esta para ser completa ainda.
-									// O linhabusca nao ta dando bom por enquanto.
-
-									linhabusca = mntbusca[postab];
+									tam = mntbusca.size();
+									cout << "tam: " << tam << endl;
+									linhabusca = mntbusca.substr(tam-1, tam);
+									compara = stoi(linhabusca);																	
 									cout << "linha da mdt: " << linhabusca << endl;
+									cout << "agora com o inteiro: " << compara << endl;
 									if (mdtfile.is_open()) {
-										while ((getline(mdtfile, mdtline)) && linhabusca!=contador) {
+										while ((getline(mdtfile, mdtline)) && compara!=contador) {
 											contador++;
 											cout << "contador: " << contador << endl;
-											cout << "linha da mdt: " << mdtline << endl;
-										}
+											cout << "linha da mdt: " << mdtline << endl;										}
 									} else cout << "Nao foi possivel abrir o arquivo MDT para busca" << endl;
 								} 
 							}
@@ -194,13 +197,16 @@ void expande_macro(char* file_name){
 							mntfile.close();
 						} else cout << "Nao foi possivel abrir o arquivo MNT para expandir macros!" << endl;
 
-					}
+					} else	{		
+						// Se nao for definicao de macro nem chamada de macro, escreve direto no .mcr
+						if (menosm.is_open()) {  
+								menosm << line << endl;
+							} else cout << "Nao foi possivel abrir o arquivo .mcr! " << endl; 
+							}	
 
-					// Se nao for definicao de macro nem chamada de macro, escreve direto no .mcr
-					if (menosm.is_open()) {  
-						menosm << line << endl;
-					} else cout << "Nao foi possivel abrir o arquivo .mcr! " << endl; 
-				}
+					
+				} 
+
 		}
 	}
 	menosm.close();	
