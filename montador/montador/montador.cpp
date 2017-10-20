@@ -212,8 +212,10 @@ void expande_macro(char* file_name){
 												cout << mdtline << endl;
 												menosm << mdtline << endl;
 												contador++;
+												cout << "contador: " << contador << endl;
+												cout << "linha fim: " << linhafim << endl;
 											}
-										} 	while (getline(mdtfile, mdtline) || contador==linhafim);
+										} 	while (getline(mdtfile, mdtline) && contador!=linhafim);
 											
 										
 								
