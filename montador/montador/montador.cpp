@@ -104,7 +104,7 @@ void lerarquivo(char* file_name) {
 
 void expande_macro(char* file_name){
 
-	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ, token, mntbusca, mdtbusca, mdtline, linhabusca, comparando;
+	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ, token, mntbusca, mdtbusca, mdtline, linhabusca, comparando, linhafimacro;
 
 	ifstream meufile(file_name);
 	ofstream mntfile("MNT",ios::app);
@@ -113,7 +113,7 @@ void expande_macro(char* file_name){
 
 	string termina="ENDMACRO";
 
-	int linhamdt=0, tam, contador=0, compara=0;
+	int linhamdt=0, tam, contador=0, compara=0, linhafim;
 
 	if (meufile.is_open())
 	{
@@ -152,7 +152,7 @@ void expande_macro(char* file_name){
 				//o nome desse arquivo é MDT(Macro Definition Table)
 				//strcmp(pesq, agen[contador].nome) == 0
 				cout << line << endl;
-				// aqui comeca a escrever no .mcr
+				
 			} else 
 				{
 					// Se for uma chamada de macro, aqui ela sera expandida
@@ -169,7 +169,7 @@ void expande_macro(char* file_name){
 								cout << "Token: " << token << endl;
 								cout << "mntbusca: " << mntbusca << endl;
 								mdtbusca = mntbusca.substr(0, postab);
-								cout << "mdtbusca: " << mntbusca << endl;
+								cout << "mdtbusca: " << mdtbusca << endl;
 								cout << mdtbusca.compare(token) << endl;
 								// Se entrar nesse if, achou o nome da macro na mnt
 								// Vai agora entrar no if e ir na mdt.
@@ -179,32 +179,69 @@ void expande_macro(char* file_name){
 								if (mdtbusca.compare(token)==0) {
 									ifstream mdtfile("MDT");									
 
+									if (getline(mntfile,linhafimacro)) {
+										int tam2 = linhafimacro.size();
+										linhafimacro = linhafimacro.substr(tam2-1,tam2);
+										linhafim = stoi(linhafimacro);
+									}
+									
+									else {
+										linhafim = 100000;
+									}
+
 									tam = mntbusca.size();
-									cout << "tam: " << tam << endl;
 									linhabusca = mntbusca.substr(tam-1, tam);
-									compara = stoi(linhabusca);																	
-									cout << "linha da mdt: " << linhabusca << endl;
-									cout << "agora com o inteiro: " << compara << endl;
+									compara = stoi(linhabusca);	
+									cout << "linha fim : " << linhafim << endl;
+																														
 									if (mdtfile.is_open()) {
+
 										while ((getline(mdtfile, mdtline)) && compara!=contador) {
 											contador++;
+											cout << "compara: " << compara << endl;
 											cout << "contador: " << contador << endl;
-											cout << "linha da mdt: " << mdtline << endl;										}
-									} else cout << "Nao foi possivel abrir o arquivo MDT para busca" << endl;
+											cout << "linha da mdt: " << mdtline << endl;
+										}
+
+										// o arquivo MDT esta exatamente na linha da macro chamada
+										// linhafim tem o valor da ultima linha que eh pra ser copiada
+										
+										do {
+										cout << "entrou aqui!" << endl;
+											if (menosm.is_open()) {
+												cout << mdtline << endl;
+												menosm << mdtline << endl;
+												contador++;
+											}
+										} 	while (getline(mdtfile, mdtline) || contador==linhafim);
+											
+										
+								
+									} else {
+										cout << "Nao foi possivel abrir o arquivo MDT para busca" << endl;
+									}
+
 								} 
+								
 							}
+							if (token=="STOP") {  				// esse if eh so pra colocar o STOP no .mcr. sem isso o stop nao entra.				
+								cout << "entrou aqui!" << endl;
+								if (menosm.is_open()) {
+									menosm << token << endl;
+								}
+							}
+							cout << "eh nois" << endl;
 							mdtfile.close();
 							mntfile.close();
+							contador=0;
 						} else cout << "Nao foi possivel abrir o arquivo MNT para expandir macros!" << endl;
 
 					} else	{		
 						// Se nao for definicao de macro nem chamada de macro, escreve direto no .mcr
 						if (menosm.is_open()) {  
-								menosm << line << endl;
-							} else cout << "Nao foi possivel abrir o arquivo .mcr! " << endl; 
-							}	
-
-					
+							menosm << line << endl;
+						} else cout << "Nao foi possivel abrir o arquivo .mcr! " << endl; 
+					}	
 				} 
 
 		}
@@ -295,9 +332,8 @@ void pre_procesamento(char* file_name) {
 						}
 
 					}
-				}
-				else cout << "\nArquivo nao pode ser aberto EQU Este caralho!!!\n\n";
-			}else{saidafile << line << endl;}
+				} 	else cout << "\nArquivo nao pode ser aberto EQU Este caralho!!!\n\n";
+			}	else{saidafile << line << endl;}
 		}
 		equfile.close();
 		meufile.close();
