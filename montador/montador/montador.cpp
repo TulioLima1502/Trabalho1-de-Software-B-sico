@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstring>
 #include <iostream>
 
 using namespace std;
@@ -343,11 +344,31 @@ void pre_procesamento(char* file_name) {
 	}
 }
 
-void montagem() {
+void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
+	string line, label;
+	char * pch;
+	
+	ifstream meufile(file_name);
+	ifstream entrada("SAIDA.MCR");
 
 	//pegar uma linha verificar o tem nela e testar a função strtok, com :, ai adiciona ou procura na tabela de símbolos
-
+	if (entrada.is_open())
+	{
+		cout << "\n";
+		while (getline(entrada, line))
+		{
+			//size_t dois_pontos=line.find(":");
+			//strtok();
+			linha=line.c_str();
+			pch = strtok (line," ");
+			while (pch != NULL)
+			{
+			  cout << pch << endl;
+			  pch = strtok (NULL, " ");
+			}
+		} 
+	}
 	//verificar labels
 
 	//preenche as tabelas de simbolos e uso
