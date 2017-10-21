@@ -1,6 +1,6 @@
 swap: EQU 0
 teste: EQU 1
-testando: EQU 0
+testando: EQU 1
 SECTION TEXT       ;uwdhcausbdcisip saudchuihsabdcu9bas 
 INPUT           OLD_DATA           ;ichauhc
             LOAD OLD_DATA  ;eae manin
@@ -16,9 +16,11 @@ LOAD OLD_DATA
 IF testando
 SUB TMP_DATA
 STORE TMP_DATA
+jmp testezao
 OUTPUT TMP_DATA
 ENDMACRO
 OIE
+testezao: SWAP
 SWAP
 IF     teste
     COPY NEW_DATA OLD_DATA

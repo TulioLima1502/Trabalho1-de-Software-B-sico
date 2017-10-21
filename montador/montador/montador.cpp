@@ -7,6 +7,7 @@
 #include <string>
 #include <cstring>
 #include <iostream>
+#include <map>
 
 using namespace std;
 
@@ -81,6 +82,8 @@ void lerarquivo(char* file_name) {
 	remove ("EQU");
 	remove ("saida");
 	remove ("SAIDA.MCR");
+	remove("tabela_de_simbolos");
+
 
 	ofstream mfile("auxiliar", ios::app);
 	if (myfile.is_open())
@@ -346,16 +349,15 @@ void pre_procesamento(char* file_name) {
 
 void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
-	string line, label, simbolo;
+	string line, label, simbolo, SimboloDaTS;
 	char * token;
 
-	int numlinha=0, tamanhot;
+	int numlinha=0, tamanhot, flagSimbIgual=0;
 	
 	ifstream meufile(file_name);
 	ifstream entrada("SAIDA.MCR");
 	ofstream saida("SAIDA.o", ios::app);
-	ofstream ts("tabela_de_simbolos", ios::app);
-
+	
 	//pegar uma linha verificar o tem nela e testar a função strtok, com :, ai adiciona ou procura na tabela de símbolos
 	if (entrada.is_open())
 	{
@@ -373,21 +375,113 @@ void montagem(char* file_name) {
 				label=token;
 				//cout << label << endl;
 				size_t dois_pontos=label.find(":");
-				cout << dois_pontos << endl;
 				if (dois_pontos!=label.npos)
 				{
-					//cout << "ta aqui" << endl;
+	
 					tamanhot = label.size();
 					simbolo = label.substr(0,tamanhot-1);
 					cout << simbolo << endl;
+					ifstream ts("tabela_de_simbolos", ios::app);
 					if (ts.is_open()){
-						ts << simbolo << "\t" << numlinha << endl;
-					}
-				}			
+						
+						while (getline(ts, SimboloDaTS)) {
+							
+							size_t postab = SimboloDaTS.find("\t");
+							if (postab!=line.npos) {
+								SimboloDaTS = SimboloDaTS.substr(0, postab);
+								if (simbolo.compare(SimboloDaTS)==0) {
+									cout << "\nA Label " << simbolo <<  " ja foi definida!\n" << endl;
+									flagSimbIgual = 1;
+								}
+							
+							}
+						}
+						ts.close();
+
+						ofstream ts("tabela_de_simbolos", ios::app);
+						if (ts.is_open() && flagSimbIgual==0) {
+							ts << simbolo << "\t" << numlinha << "\t" << "T" << endl;
+							ts.close();
+						}
+						flagSimbIgual=0;
+					} 
+				} else {
+						cout << label << endl;
+						if (label.compare("ADD")==0){
+
+							cout << "opcode = 1" << endl;
+
+						} else if (label.compare("SUB")==0) {
+
+							cout << "opcode = 2" << endl;	
+
+						} else if (label.compare("MULT")==0) {
+
+							cout << "opcode = 3" << endl;
+
+						} else if (label.compare("DIV")==0) {
+
+							cout << "opcode = 4" << endl;
+
+						} else if (label.compare("JMP")==0) {
+
+							cout << "opcode = 5" << endl;
+
+						} else if (label.compare("JMPN")==0) {
+
+							cout << "opcode = 6" << endl;
+
+						} else if (label.compare("JMPP")==0) {
+
+							cout << "opcode = 7" << endl;
+
+						} else if (label.compare("JMPZ")==0) {
+
+							cout << "opcode = 8" << endl;
+
+						} else if (label.compare("COPY")==0) {
+
+							cout << "opcode = 9" << endl;
+
+						} else if (label.compare("LOAD")==0) {
+
+							cout << "opcode = 10" << endl;
+
+						} else if (label.compare("STORE")==0) {
+
+							cout << "opcode = 11" << endl;
+
+						} else if (label.compare("INPUT")==0) {
+
+							cout << "opcode = 12" << endl;
+
+						} else if (label.compare("OUTPUT")==0) {
+
+							cout << "opcode = 13" << endl;
+
+						} else if (label.compare("STOP")==0) {
+
+							cout << "opcode = 14" << endl;
+
+						} else if (label.compare("SPACE")==0) {
+
+							cout << "diretiva space" << endl;
+
+						} else if (label.compare("SECTION")==0) {
+
+							cout << "eh uma section" << endl;
+
+						} else if (label.compare("CONST")==0) {
+							cout << "eh uma const" << endl;
+						}
+
+									
+					
+				}
 			  	token = strtok (NULL, " ");
 			}
 
-			cout << numlinha << endl;
+			//cout << numlinha << endl;
 			numlinha++;
 			numlinha++;
 		} 
