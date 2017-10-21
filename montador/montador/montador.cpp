@@ -345,6 +345,11 @@ void pre_procesamento(char* file_name) {
 
 void montagem() {
 	//faz a conversão do código conforme a passagem única
+
+	//pegar uma linha verificar o tem nela e testar a função strtok, com :, ai adiciona ou procura na tabela de símbolos
+
+	//verificar labels
+
 	//preenche as tabelas de simbolos e uso
 	//checa erros (fazer uma função de detecção de erros da linguagem inventada)
 	//escrever em um arquivo de saida
@@ -378,6 +383,9 @@ int main(int argc, char* argv[]) {
 		//montagem();
 		//codigo_objeto();
 	}else if (string(argv[1])=="-o"){
+		pre_procesamento(argv[3]);
+		expande_macro(argv[3]);
+		montagem(argv[3]);
 		//Realiza a montagem do código depois de expandir as macros
 	}else {
 		cout << " Comando de execução não encontrado.    ERRO     " << endl;
