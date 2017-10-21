@@ -347,14 +347,11 @@ void pre_procesamento(char* file_name) {
 
 void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
-	string line, label, simbolo;
+	string line, label;
 	char * token;
-
-	int numlinha=0, tamanhot;
 	
 	ifstream meufile(file_name);
 	ifstream entrada("SAIDA.MCR");
-	ofstream saida("SAIDA.o", ios::app);
 
 	//pegar uma linha verificar o tem nela e testar a função strtok, com :, ai adiciona ou procura na tabela de símbolos
 	if (entrada.is_open())
@@ -362,30 +359,16 @@ void montagem(char* file_name) {
 		cout << "\n";
 		while (getline(entrada, line))
 		{
-			//size_t dois_pontos=line.find(":");
 			//strtok();
 			char *duplicata = strdup(line.c_str());
 			//linha=line.c_str();
 			token = strtok (duplicata," ");
 			while (token != NULL)
 			{
-				//cout << token << endl;
-				label=token;
-				//cout << label << endl;
-				size_t dois_pontos=label.find(":");
-				cout << dois_pontos << endl;
-				if (dois_pontos!=label.npos)
-				{
-					//cout << "ta aqui" << endl;
-					tamanhot = label.size();
-					simbolo = label.substr(0,tamanhot-1);
-					cout << simbolo << endl;
-				}			
+				cout << token << endl;
+								
 			  	token = strtok (NULL, " ");
 			}
-
-			cout << numlinha << endl;
-			numlinha++;
 		} 
 	}
 	//verificar labels
