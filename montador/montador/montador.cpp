@@ -353,7 +353,7 @@ void montagem(char* file_name) {
 	
 	ifstream meufile(file_name);
 	ifstream entrada("SAIDA.MCR");
-	ofstream saida("SAIDA.O", ios::app);
+	ofstream saida("SAIDA.o", ios::app);
 
 	//pegar uma linha verificar o tem nela e testar a função strtok, com :, ai adiciona ou procura na tabela de símbolos
 	if (entrada.is_open())
