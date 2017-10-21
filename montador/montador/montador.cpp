@@ -352,7 +352,7 @@ void montagem(char* file_name) {
 	string line, label, simbolo, SimboloDaTS;
 	char * token;
 
-	int numlinha=0, tamanhot, flagSimbIgual=0;
+	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0;
 	
 	ifstream meufile(file_name);
 	ifstream entrada("SAIDA.MCR");
@@ -369,7 +369,7 @@ void montagem(char* file_name) {
 			char *duplicata = strdup(line.c_str());
 			//linha=line.c_str();
 			token = strtok (duplicata," ");
-			while (token != NULL)
+			if (token != NULL)
 			{
 				//cout << token << endl;
 				label=token;
