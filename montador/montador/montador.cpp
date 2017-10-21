@@ -472,7 +472,16 @@ void montagem(char* file_name) {
 							cout << "eh uma section" << endl;
 
 						} else if (label.compare("CONST")==0) {
+							
 							cout << "eh uma const" << endl;
+						
+						} else {
+							//procurar dentro da tabela de símbolos para ver se está definido
+							//caso na tabela de símbolos não exista o token, então ele deve ser criado e iniciado com valor de definição F
+								//a linha é salva na tabela de pendências
+							//caso na tabela de símbolos exista o token, mas definido com F, atualiza a lista de pendências
+							//caso na tabela de símbolos exista o token e ele esteja definido com V, pode escrever o valor
+							//caso na tabela de símbolos exista o token mas o operando só esta sendo definido agora, resolva todas as pendências 
 						}
 
 									
