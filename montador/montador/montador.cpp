@@ -360,12 +360,12 @@ void montagem(char* file_name) {
 		{
 			//size_t dois_pontos=line.find(":");
 			//strtok();
-			linha=line.c_str();
-			pch = strtok (line," ");
+			//linha=line.c_str();
+			//pch = strtok (line," ");
 			while (pch != NULL)
 			{
-			  cout << pch << endl;
-			  pch = strtok (NULL, " ");
+			 // cout << pch << endl;
+			  //pch = strtok (NULL, " ");
 			}
 		} 
 	}
