@@ -354,6 +354,7 @@ void montagem(char* file_name) {
 	ifstream meufile(file_name);
 	ifstream entrada("SAIDA.MCR");
 	ofstream saida("SAIDA.o", ios::app);
+	ofstream ts("tabela_de_simbolos", ios::app);
 
 	//pegar uma linha verificar o tem nela e testar a função strtok, com :, ai adiciona ou procura na tabela de símbolos
 	if (entrada.is_open())
@@ -379,11 +380,15 @@ void montagem(char* file_name) {
 					tamanhot = label.size();
 					simbolo = label.substr(0,tamanhot-1);
 					cout << simbolo << endl;
+					if (ts.is_open()){
+						ts << simbolo << "\t" << numlinha << endl;
+					}
 				}			
 			  	token = strtok (NULL, " ");
 			}
 
 			cout << numlinha << endl;
+			numlinha++;
 			numlinha++;
 		} 
 	}
