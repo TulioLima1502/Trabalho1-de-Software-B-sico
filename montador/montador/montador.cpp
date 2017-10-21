@@ -346,8 +346,10 @@ void pre_procesamento(char* file_name) {
 
 void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
-	string line, label;
+	string line, label, simbolo;
 	char * token;
+
+	int numlinha=0, tamanhot;
 	
 	ifstream meufile(file_name);
 	ifstream entrada("SAIDA.MCR");
@@ -365,9 +367,23 @@ void montagem(char* file_name) {
 			token = strtok (duplicata," ");
 			while (token != NULL)
 			{
-				cout << token << endl;
+				//cout << token << endl;
+				label=token;
+				//cout << label << endl;
+				size_t dois_pontos=label.find(":");
+				cout << dois_pontos << endl;
+				if (dois_pontos!=label.npos)
+				{
+					//cout << "ta aqui" << endl;
+					tamanhot = label.size();
+					simbolo = label.substr(0,tamanhot-1);
+					cout << simbolo << endl;
+				}			
 			  	token = strtok (NULL, " ");
 			}
+
+			cout << numlinha << endl;
+			numlinha++;
 		} 
 	}
 	//verificar labels
