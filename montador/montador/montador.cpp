@@ -349,7 +349,7 @@ void pre_procesamento(char* file_name) {
 
 void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
-	string line, label, simbolo, SimboloDaTS;
+	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts;
 	char * token;
 
 	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0;
@@ -369,7 +369,7 @@ void montagem(char* file_name) {
 			char *duplicata = strdup(line.c_str());
 			//linha=line.c_str();
 			token = strtok (duplicata," ");
-			if (token != NULL)
+			while (token != NULL)
 			{
 				//cout << token << endl;
 				label=token;
@@ -477,6 +477,28 @@ void montagem(char* file_name) {
 						
 						} else {
 							//procurar dentro da tabela de símbolos para ver se está definido
+							
+							ifstream ts("tabela_de_simbolos", ios::app);
+							if (ts.is_open()){
+									
+								while (getline(ts, linha_da_ts)) {
+									
+									size_t postab = linha_da_ts.find("\t");
+									if (postab!=linha_da_ts.npos) {
+										simbolo_lido = linha_da_ts.substr(0, postab);
+										if (label.compare(simbolo_lido)==0) {
+											cout << "\n\nachou esse caralho\n" << endl;
+											postab=linha_da_ts.find("\t",postab+3,1);
+											cout << linha_da_ts.substr(0, postab) << "nesse ponto, merda" << endl;
+
+										}else {
+											//cout << "\n\n esse caralho não existe" << endl;
+										}
+									
+									}
+								}
+								ts.close();
+							}
 							//caso na tabela de símbolos não exista o token, então ele deve ser criado e iniciado com valor de definição F
 								//a linha é salva na tabela de pendências
 							//caso na tabela de símbolos exista o token, mas definido com F, atualiza a lista de pendências
