@@ -387,15 +387,26 @@ void montagem(char* file_name) {
 						while (getline(ts, SimboloDaTS)) {
 							
 							size_t postab = SimboloDaTS.find("\t");
+							size_t postabdois = SimboloDaTS.find("\t",postab+3,1);
+							size_t novo;
 							if (postab!=line.npos) {
 								SimboloDaTS = SimboloDaTS.substr(0, postab);
-								if (simbolo.compare(SimboloDaTS)==0) {
+								//pega o valor da definição encontrada e depois compara para ver se é F
+								novo = postabdois;
+								//cout << postabdois << endl;
+								postabdois=SimboloDaTS.find("\t",postab+3,1);
+								definicao=SimboloDaTS.substr(0, postab);
+								//cout << definicao + "AAAAAAA" << endl;
+								if ((simbolo.compare(SimboloDaTS)==0)&&(definicao=="T")) {
 									cout << "\nA Label " << simbolo <<  " ja foi definida!\n" << endl;
 									flagSimbIgual = 1;
+								} else if ((simbolo.compare(SimboloDaTS)==0)&&(definicao=="F")) {
+									cout << "\n\n POR FAVOR RESOLVA AS PENDENCIAS DESSE PARAMETRO\n\n";
+
 								}
 							
 							}
-						}
+						} // se achar o valor mas se estiver definido como F então tem que pegar o valore dele e escrever em cada pendencia
 						ts.close();
 
 						ofstream ts("tabela_de_simbolos", ios::app);
@@ -491,8 +502,8 @@ void montagem(char* file_name) {
 											cout << "\n\nachou esse caralho\n" << endl;
 											novo = postab;
 											postab=linha_da_ts.find("\t",postab+3,1);
-											definicao=linha_da_ts.substr(novo+3, postab);
-											cout << definicao + "\t"<< "nesse ponto, merda" << endl;
+											definicao=linha_da_ts.substr(novo+4, postab);
+											cout << definicao  +"\t"<< "nesse ponto, merda" << endl;
 											// verifica a definição do símbolo, se for T verifica o valor do simbolo
 											if (definicao.compare("T")==0){
 												cout << "\n\n simbolo já estava na tabela PODE PEGAR O VALOR DA LINHA\n\n";
@@ -507,10 +518,20 @@ void montagem(char* file_name) {
 										}else {
 											//cout << "\n\n esse caralho não existe" << endl;
 											//incluir na tabela de simbolos com o valor de definição F e a pendencia
+											flagSimbIgual = 2;
+											
 										}
 									
 									}
 								}
+
+								ofstream ts("tabela_de_simbolos", ios::app);
+								if (ts.is_open()&&(flagSimbIgual==2)) {
+									ts << label << "\t" << numlinha << "\t" << "F" << endl;
+									ts.close();
+								}
+								flagSimbIgual=0;
+
 								ts.close();
 							}
 							//caso na tabela de símbolos não exista o token, então ele deve ser criado e iniciado com valor de definição F
