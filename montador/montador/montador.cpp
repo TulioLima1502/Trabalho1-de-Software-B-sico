@@ -83,6 +83,7 @@ void lerarquivo(char* file_name) {
 	remove ("saida");
 	remove ("SAIDA.MCR");
 	remove("tabela_de_simbolos");
+	remove ("SAIDA.o");
 
 
 	ofstream mfile("auxiliar", ios::app);
@@ -426,60 +427,92 @@ void montagem(char* file_name) {
 						if (label.compare("ADD")==0){
 
 							cout << "opcode = 1" << endl;
+							if (saida.is_open()) {
+								saida << "1" << " ";
+							}
 
 						} else if (label.compare("SUB")==0) {
 
-							cout << "opcode = 2" << endl;	
+							cout << "opcode = 2" << endl;
+							if (saida.is_open()) {
+								saida << "2" << " ";
+							}
 
 						} else if (label.compare("MULT")==0) {
 
 							cout << "opcode = 3" << endl;
+							if (saida.is_open()) {
+								saida << "3" << " ";
+							}
 
 						} else if (label.compare("DIV")==0) {
 
 							cout << "opcode = 4" << endl;
-
+							if (saida.is_open()) {
+								saida << "4" << " ";
+							}
 						} else if (label.compare("JMP")==0) {
 
 							cout << "opcode = 5" << endl;
-
+							if (saida.is_open()) {
+								saida << "5" << " ";
+							}
 						} else if (label.compare("JMPN")==0) {
 
 							cout << "opcode = 6" << endl;
-
+							if (saida.is_open()) {
+								saida << "6" << " ";
+							}
 						} else if (label.compare("JMPP")==0) {
 
 							cout << "opcode = 7" << endl;
-
+							if (saida.is_open()) {
+								saida << "7" << " ";
+							}
 						} else if (label.compare("JMPZ")==0) {
 
 							cout << "opcode = 8" << endl;
-
+							if (saida.is_open()) {
+								saida << "8" << " ";
+							}
 						} else if (label.compare("COPY")==0) {
 
 							cout << "opcode = 9" << endl;
-
+							if (saida.is_open()) {
+								saida << "9" << " ";
+							}
+							// TEM QUE CHECAR ESSE DE MANEIRA ISOLADA
 						} else if (label.compare("LOAD")==0) {
 
 							cout << "opcode = 10" << endl;
-
+							if (saida.is_open()) {
+								saida << "10" << " ";
+							}
 						} else if (label.compare("STORE")==0) {
 
 							cout << "opcode = 11" << endl;
-
+							if (saida.is_open()) {
+								saida << "11" << " ";
+							}
 						} else if (label.compare("INPUT")==0) {
 
 							cout << "opcode = 12" << endl;
-
+							if (saida.is_open()) {
+								saida << "12" << " ";
+							}
 						} else if (label.compare("OUTPUT")==0) {
 
 							cout << "opcode = 13" << endl;
-
+							if (saida.is_open()) {
+								saida << "13" << " ";
+							}
 						} else if (label.compare("STOP")==0) {
 
 							cout << "opcode = 14" << endl;
 							numlinha--;
-
+							if (saida.is_open()) {
+								saida << "14" << " ";
+							}
 						} else if (label.compare("SPACE")==0) {
 
 							cout << "diretiva space" << endl;
@@ -524,12 +557,14 @@ void montagem(char* file_name) {
 												cout << "\n\n simbolo ainda não foi definido TEM QUE ESCREVER AS PENDENCIAS\n\n";
 												// VERIFICAR SE A LINHA DE CODIGO ANTERIOR RESOLVE ESSE CASO
 												// AQUI PODE ESCREVER O X NO VALOR DO PARAMETRO NO ARQUIVO DE SAIDA.O
+												
 											} else {
 												cout << "simbolo não encontrado" << endl;
 												// VERIFICAR SE A LINHA DE CODIGO ANTERIOR RESOLVE ESSE CASO
 												// AQUI PODE ESCREVER O X NO VALOR DO PARAMETRO NO ARQUIVO DE SAIDA.O
 												// DEPOIS DE FEITO TUDO ISSO TEM QUE VERIFICAR RESOLVER AS PENDENCIAS DE TODOS ARQUIVOS
 												// TEM QUE DECIDIR SE AS PENDENCIAS VÃO SER RESOLVIDAS SÓ NO FINAL OU SE NA HORA QUE ACHAR ELE VAI RESOLVER
+												
 											}
 											// se for F adiciona nas pendências depois do valor de difinição do simbolo 
 
@@ -546,6 +581,9 @@ void montagem(char* file_name) {
 								ofstream ts("tabela_de_simbolos", ios::app);
 								if (ts.is_open()) {
 									ts << label << "\t" << numlinha << "\t" << "F" << endl;
+									if (saida.is_open()) {
+										saida << "xx" << endl;
+									}
 									ts.close();
 								}
 								flagSimbIgual=0;
