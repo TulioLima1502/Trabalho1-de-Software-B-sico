@@ -443,7 +443,9 @@ void montagem(char* file_name) {
 						} else if (label.compare("SUB")==0) {
 							pc+=2;	
 							cout << "opcode = 2" << endl;	
-
+							if (saida.is_open()) {
+								saida << "2" << " ";
+							}
 						} else if (label.compare("MULT")==0) {
 							pc+=2;
 							cout << "opcode = 3" << endl;
