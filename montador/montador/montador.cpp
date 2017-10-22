@@ -533,15 +533,25 @@ void montagem(char* file_name) {
 								saida << "14" << " ";
 							}
 						} else if (label.compare("SPACE")==0) {
-							pc+=1;
-
-							label=token;
-							cout << "entrou aqui " << endl;
-							cout << line << "bem aqui"<< endl;
-							line.size();
-
-							//if line.substr()
+							pc+=1;							
 							
+							size_t posicao = line.find("SPACE");
+							string teste = line.substr(0,posicao+5);
+							cout << teste << endl;
+							cout << "oi" << endl;
+							int posnum = teste.size();
+							int comprimento = line.size();
+							int result = comprimento - posnum;
+							//cout << result << endl;
+							
+							if (result > 1){
+								token = strtok (NULL, " ");
+								label=token;
+								//cout << label << endl;
+								int espacos=atoi(token);
+								cout << espacos << endl;
+							}
+
 							cout << "diretiva space: " << endl;
 							numlinha--;
 
