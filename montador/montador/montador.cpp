@@ -353,8 +353,9 @@ void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
 	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao;
 	char * token;
+	int espacos;
 
-	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0, valor;
+	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0, valor,i;
 	bool flag[17] = { 0 };
 
 	/* vetor de flags para indicar qual eh a instrucao instanciando
@@ -542,14 +543,22 @@ void montagem(char* file_name) {
 							int posnum = teste.size();
 							int comprimento = line.size();
 							int result = comprimento - posnum;
-							//cout << result << endl;
 							
 							if (result > 1){
 								token = strtok (NULL, " ");
 								label=token;
 								//cout << label << endl;
-								int espacos=atoi(token);
+								espacos=atoi(token);
 								cout << espacos << endl;
+							} else if(result < 1){
+								espacos = 1;
+								//cout << espacos << endl;
+							}
+
+							if (saida.is_open()) {
+								for(i=0;i<espacos;i++){
+								saida << "0" <<" ";
+								}
 							}
 
 							cout << "diretiva space: " << endl;
