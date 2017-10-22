@@ -349,7 +349,7 @@ void pre_procesamento(char* file_name) {
 
 void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
-	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts;
+	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao;
 	char * token;
 
 	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0;
@@ -484,15 +484,29 @@ void montagem(char* file_name) {
 								while (getline(ts, linha_da_ts)) {
 									
 									size_t postab = linha_da_ts.find("\t");
+									size_t novo;
 									if (postab!=linha_da_ts.npos) {
 										simbolo_lido = linha_da_ts.substr(0, postab);
 										if (label.compare(simbolo_lido)==0) {
 											cout << "\n\nachou esse caralho\n" << endl;
+											novo = postab;
 											postab=linha_da_ts.find("\t",postab+3,1);
-											cout << linha_da_ts.substr(0, postab) << "nesse ponto, merda" << endl;
+											definicao=linha_da_ts.substr(novo+3, postab);
+											cout << definicao + "\t"<< "nesse ponto, merda" << endl;
+											// verifica a definição do símbolo, se for T verifica o valor do simbolo
+											if (definicao.compare("T")==0){
+												cout << "\n\n simbolo já estava na tabela PODE PEGAR O VALOR DA LINHA\n\n";
+												
+											} else if (definicao.compare("F")==0) {
+												cout << "\n\n simbolo ainda não foi definido TEM QUE ESCREVER AS PENDENCIAS\n\n";
+											} else {
+												cout << "simbolo não encontrado" << endl;
+											}
+											// se for F adiciona nas pendências depois do valor de difinição do simbolo 
 
 										}else {
 											//cout << "\n\n esse caralho não existe" << endl;
+											//incluir na tabela de simbolos com o valor de definição F e a pendencia
 										}
 									
 									}
