@@ -538,7 +538,8 @@ void montagem(char* file_name) {
 							token = strtok (NULL, " ");
 							label=token;
 							cout << "entrou aqui " << endl;
-							
+							cout << line << "bem aqui"<< endl;
+
 							//if (label!=NULL) {
 							//	espacos = 1;
 							//} else {
@@ -559,7 +560,6 @@ void montagem(char* file_name) {
 
 						} else if (label.compare("CONST")==0) {
 							pc+=2;	
-							
 							token = strtok (NULL, " ");
 							label=token;
 							if (label.substr(0,2)=="0x") {
