@@ -534,15 +534,16 @@ void montagem(char* file_name) {
 							pc+=1;
 							
 							int espacos = 0;
-						
-							
+
+							token = strtok (NULL, " ");
+							label=token;
 							cout << "entrou aqui " << endl;
 							
-							if (label==" ") {
-								espacos = 1;
-							} else {
-								espacos = stoi(label);
-							}		
+							//if (label!=NULL) {
+							//	espacos = 1;
+							//} else {
+							//	espacos = stoi(label);
+							//}		
 							
 							cout << "diretiva space: " << espacos << endl;
 							numlinha--;
@@ -649,7 +650,7 @@ void montagem(char* file_name) {
 				}
 			  	token = strtok (NULL, " ");
 			}
-			free (duplicata);
+			//free (duplicata);
 			
 			//cout << numlinha << endl;
 			numlinha++;
