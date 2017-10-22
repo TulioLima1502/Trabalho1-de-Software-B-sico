@@ -534,21 +534,15 @@ void montagem(char* file_name) {
 							}
 						} else if (label.compare("SPACE")==0) {
 							pc+=1;
-							
-							int espacos = 0;
 
-							token = strtok (NULL, " ");
 							label=token;
 							cout << "entrou aqui " << endl;
 							cout << line << "bem aqui"<< endl;
+							line.size();
 
-							//if (label!=NULL) {
-							//	espacos = 1;
-							//} else {
-							//	espacos = stoi(label);
-							//}		
+							//if line.substr()
 							
-							cout << "diretiva space: " << espacos << endl;
+							cout << "diretiva space: " << endl;
 							numlinha--;
 
 						} else if (label.compare("SECTION")==0) {	
