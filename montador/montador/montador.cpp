@@ -390,18 +390,23 @@ void montagem(char* file_name) {
 							size_t postabdois = SimboloDaTS.find("\t",postab+3,1);
 							size_t novo;
 							if (postab!=line.npos) {
+								novo = postab;
+								definicao=SimboloDaTS.substr(novo+4,postabdois);
 								SimboloDaTS = SimboloDaTS.substr(0, postab);
-								//pega o valor da definição encontrada e depois compara para ver se é F
-								novo = postabdois;
-								//cout << postabdois << endl;
-								postabdois=SimboloDaTS.find("\t",postab+3,1);
-								definicao=SimboloDaTS.substr(0, postab);
-								//cout << definicao + "AAAAAAA" << endl;
+								//pega o valor da definição encontrada e depois compara para ver se é F ou T
+								//caso seja T ele deve mostrar um erro
+								//caso seja F ele deve resolver as pendencias desse operando
 								if ((simbolo.compare(SimboloDaTS)==0)&&(definicao=="T")) {
 									cout << "\nA Label " << simbolo <<  " ja foi definida!\n" << endl;
+									cout << definicao << endl;
 									flagSimbIgual = 1;
+									// tem que mostrar um erro
+
 								} else if ((simbolo.compare(SimboloDaTS)==0)&&(definicao=="F")) {
-									cout << "\n\n POR FAVOR RESOLVA AS PENDENCIAS DESSE PARAMETRO\n\n";
+									cout << definicao << endl;
+									cout << simbolo << "\n\nPOR FAVOR RESOLVA AS PENDENCIAS DESSE PARAMETRO\n\n";
+									// aqui já pode ser resolvida as pendencias que aparecerem
+									// fazer a função para resolver as pendencias do código objeto 
 
 								}
 							
@@ -473,19 +478,25 @@ void montagem(char* file_name) {
 						} else if (label.compare("STOP")==0) {
 
 							cout << "opcode = 14" << endl;
+							numlinha--;
 
 						} else if (label.compare("SPACE")==0) {
 
 							cout << "diretiva space" << endl;
+							numlinha--;
 
 						} else if (label.compare("SECTION")==0) {
 
 							cout << "eh uma section" << endl;
+							numlinha--;
+						} else if (label.compare("TEXT")==0) {
 
+							cout << "eh uma section" << endl;
+							numlinha--;
 						} else if (label.compare("CONST")==0) {
 							
 							cout << "eh uma const" << endl;
-						
+							numlinha--;
 						} else {
 							//procurar dentro da tabela de símbolos para ver se está definido
 							
@@ -503,15 +514,22 @@ void montagem(char* file_name) {
 											novo = postab;
 											postab=linha_da_ts.find("\t",postab+3,1);
 											definicao=linha_da_ts.substr(novo+4, postab);
-											cout << definicao  +"\t"<< "nesse ponto, merda" << endl;
+											//cout << definicao << endl;
 											// verifica a definição do símbolo, se for T verifica o valor do simbolo
 											if (definicao.compare("T")==0){
 												cout << "\n\n simbolo já estava na tabela PODE PEGAR O VALOR DA LINHA\n\n";
+												// NESSA PARTE PODE INSERIR A ESCRITA NO ARQUIVO DE SAIDA.O
 												
 											} else if (definicao.compare("F")==0) {
 												cout << "\n\n simbolo ainda não foi definido TEM QUE ESCREVER AS PENDENCIAS\n\n";
+												// VERIFICAR SE A LINHA DE CODIGO ANTERIOR RESOLVE ESSE CASO
+												// AQUI PODE ESCREVER O X NO VALOR DO PARAMETRO NO ARQUIVO DE SAIDA.O
 											} else {
 												cout << "simbolo não encontrado" << endl;
+												// VERIFICAR SE A LINHA DE CODIGO ANTERIOR RESOLVE ESSE CASO
+												// AQUI PODE ESCREVER O X NO VALOR DO PARAMETRO NO ARQUIVO DE SAIDA.O
+												// DEPOIS DE FEITO TUDO ISSO TEM QUE VERIFICAR RESOLVER AS PENDENCIAS DE TODOS ARQUIVOS
+												// TEM QUE DECIDIR SE AS PENDENCIAS VÃO SER RESOLVIDAS SÓ NO FINAL OU SE NA HORA QUE ACHAR ELE VAI RESOLVER
 											}
 											// se for F adiciona nas pendências depois do valor de difinição do simbolo 
 
@@ -526,7 +544,7 @@ void montagem(char* file_name) {
 								}
 
 								ofstream ts("tabela_de_simbolos", ios::app);
-								if (ts.is_open()&&(flagSimbIgual==2)) {
+								if (ts.is_open()) {
 									ts << label << "\t" << numlinha << "\t" << "F" << endl;
 									ts.close();
 								}
@@ -534,6 +552,8 @@ void montagem(char* file_name) {
 
 								ts.close();
 							}
+
+
 							//caso na tabela de símbolos não exista o token, então ele deve ser criado e iniciado com valor de definição F
 								//a linha é salva na tabela de pendências
 							//caso na tabela de símbolos exista o token, mas definido com F, atualiza a lista de pendências
