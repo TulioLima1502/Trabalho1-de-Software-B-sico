@@ -8,6 +8,7 @@
 #include <cstring>
 #include <iostream>
 #include <map>
+#include <cstddef>
 
 using namespace std;
 
@@ -351,11 +352,11 @@ void pre_procesamento(char* file_name) {
 
 void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
-	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao;
+	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao, buscatabela;
 	char * token;
-	int espacos;
+	int espacos, linhadependencia;
 
-	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0, valor,i;
+	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0, valor,i, achou=0;
 	bool flag[17] = { 0 };
 
 	/* vetor de flags para indicar qual eh a instrucao instanciando
@@ -426,6 +427,7 @@ void montagem(char* file_name) {
 
 						ofstream ts("tabela_de_simbolos", ios::app);
 						if (ts.is_open() && flagSimbIgual==0) {
+							cout << "\n\n PROGRAM COUNTER:  " << pc << endl;
 							ts << simbolo << "\t" << pc << "\t" << "T" << endl;
 							ts.close();
 						}
@@ -442,55 +444,55 @@ void montagem(char* file_name) {
 
 
 						} else if (label.compare("SUB")==0) {
-							pc+=2;	
+							pc+=1;	
 							cout << "opcode = 2" << endl;	
 							if (saida.is_open()) {
 								saida << "2" << " ";
 							}
 						} else if (label.compare("MULT")==0) {
-							pc+=2;
+							pc+=1;
 							cout << "opcode = 3" << endl;
 							if (saida.is_open()) {
 								saida << "3" << " ";
 							}
 
 						} else if (label.compare("DIV")==0) {
-							pc+=2;	
+							pc+=1;	
 							
 							cout << "opcode = 4" << endl;
 							if (saida.is_open()) {
 								saida << "4" << " ";
 							}
 						} else if (label.compare("JMP")==0) {
-							pc+=2;	
+							pc+=1;	
 							
 							cout << "opcode = 5" << endl;
 							if (saida.is_open()) {
 								saida << "5" << " ";
 							}
 						} else if (label.compare("JMPN")==0) {
-							pc+=2;	
+							pc+=1;	
 							
 							cout << "opcode = 6" << endl;
 							if (saida.is_open()) {
 								saida << "6" << " ";
 							}
 						} else if (label.compare("JMPP")==0) {
-							pc+=2;	
+							pc+=1;	
 							
 							cout << "opcode = 7" << endl;
 							if (saida.is_open()) {
 								saida << "7" << " ";
 							}
 						} else if (label.compare("JMPZ")==0) {
-							pc+=2;	
+							pc+=1;	
 							
 							cout << "opcode = 8" << endl;
 							if (saida.is_open()) {
 								saida << "8" << " ";
 							}
 						} else if (label.compare("COPY")==0) {
-							pc+=2;	
+							pc+=1;	
 							
 							cout << "opcode = 9" << endl;
 							if (saida.is_open()) {
@@ -498,28 +500,28 @@ void montagem(char* file_name) {
 							}
 							// TEM QUE CHECAR ESSE DE MANEIRA ISOLADA
 						} else if (label.compare("LOAD")==0) {
-							pc+=2;	
+							pc+=1;	
 							
 							cout << "opcode = 10" << endl;
 							if (saida.is_open()) {
 								saida << "10" << " ";
 							}
 						} else if (label.compare("STORE")==0) {
-							pc+=2;	
+							pc+=1;	
 							
 							cout << "opcode = 11" << endl;
 							if (saida.is_open()) {
 								saida << "11" << " ";
 							}
 						} else if (label.compare("INPUT")==0) {
-							pc+=2;	
+							pc+=1;	
 							
 							cout << "opcode = 12" << endl;
 							if (saida.is_open()) {
 								saida << "12" << " ";
 							}
 						} else if (label.compare("OUTPUT")==0) {
-							pc+=2;	
+							pc+=1;	
 							
 							cout << "opcode = 13" << endl;
 							if (saida.is_open()) {
@@ -534,7 +536,7 @@ void montagem(char* file_name) {
 								saida << "14" << " ";
 							}
 						} else if (label.compare("SPACE")==0) {
-							pc+=1;							
+														
 							
 							size_t posicao = line.find("SPACE");
 							string teste = line.substr(0,posicao+5);
@@ -557,6 +559,7 @@ void montagem(char* file_name) {
 
 							if (saida.is_open()) {
 								for(i=0;i<espacos;i++){
+								pc++;
 								saida << "0" <<" ";
 								}
 							}
@@ -574,7 +577,6 @@ void montagem(char* file_name) {
 							numlinha--;
 
 						} else if (label.compare("CONST")==0) {
-							pc+=2;	
 							token = strtok (NULL, " ");
 							label=token;
 							if (label.substr(0,2)=="0x") {
@@ -589,6 +591,7 @@ void montagem(char* file_name) {
 								saida << valor << " ";
 							}
 							
+							pc++;
 							
 							numlinha--;
 						} else {
@@ -638,12 +641,14 @@ void montagem(char* file_name) {
 									
 									}
 								}
-
+								
 								ofstream ts("tabela_de_simbolos", ios::app);
 								if (ts.is_open()) {
-									ts << label << "\t" << numlinha << "\t" << "F" << endl;
+									ts << label << "\t" << pc << "\t" << "F" << endl;
+									pc++;
 									if (saida.is_open()) {
-										saida << "xx" << endl;
+										saida << "xx" << " ";
+
 									}
 									ts.close();
 								}
@@ -665,12 +670,50 @@ void montagem(char* file_name) {
 				}
 			  	token = strtok (NULL, " ");
 			}
-			//free (duplicata);
-			
-			//cout << numlinha << endl;
-			numlinha++;
-			numlinha++;
+		
 		} 
+		// Resolvendo pendencias:
+
+		ifstream ts("tabela_de_simbolos");
+		while (getline(ts, linha_da_ts)) {
+			cout << "Comecando a procurar..." <<endl;
+			size_t rposdef = linha_da_ts.rfind("\t");
+			size_t poslabel = linha_da_ts.find("\t");
+			label = linha_da_ts.substr(0,poslabel);
+			int tam = 0;
+			tam=linha_da_ts.size();
+			line = linha_da_ts.substr(rposdef+1,tam);
+			cout << label << endl;
+			if (line=="F") {
+				while (getline(ts, linha_da_ts) && achou==0) {
+					poslabel = linha_da_ts.find("\t");
+					buscatabela = linha_da_ts.substr(0, poslabel);
+					if (label.compare(buscatabela)==0 && achou==0) {
+						rposdef = linha_da_ts.rfind("\t");
+						tam=linha_da_ts.size();
+						line = linha_da_ts.substr(rposdef+1,tam);
+						if (line=="T") {
+							achou = 1;
+							line = linha_da_ts.substr(poslabel+1,rposdef-3);
+							poslabel =line.find("\t");	
+							line = line.substr(0,poslabel);							
+						}
+					}
+				} 
+				ifstream ts("tabela_de_simbolos");
+				while (getline(ts,linha_da_ts)) {
+					poslabel = linha_da_ts.find("\t");
+					buscatabela = linha_da_ts.substr(0, poslabel);					
+					if (buscatabela.compare(label)==0) {
+						poslabel = linha_da_ts.find("\t");
+						rposdef = linha_da_ts.rfind("\t");
+						linhadependencia = stoi(linha_da_ts.substr(poslabel, rposdef));
+					}
+				}
+			}
+		}
+		
+
 	}
 	//verificar labels
 
