@@ -122,7 +122,8 @@ void expande_macro(char* file_name){
 
 	if (meufile.is_open())
 	{
-		cout << "\n";
+
+		cout << "ta aqui?" << endl;
 		while (getline(meufile, line))
 		{
 			
@@ -353,7 +354,14 @@ void montagem(char* file_name) {
 	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao;
 	char * token;
 
-	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0;
+	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0, valor;
+	bool flag[17] = { 0 };
+
+	/* vetor de flags para indicar qual eh a instrucao instanciando
+	os argumentos da linha. no nosso vetor, a posicao [0] corresponde 
+	ao ADD, [1] ao sub, e assim por diante de acordo com a tabela da
+	especificacao do trabalho. As posicoes [14], [15] e [16], respectivamente,
+	correspondem `as diretivas section, space e const. */
 	
 	ifstream meufile(file_name);
 	ifstream entrada("SAIDA.MCR");
@@ -417,7 +425,7 @@ void montagem(char* file_name) {
 
 						ofstream ts("tabela_de_simbolos", ios::app);
 						if (ts.is_open() && flagSimbIgual==0) {
-							ts << simbolo << "\t" << numlinha << "\t" << "T" << endl;
+							ts << simbolo << "\t" << pc << "\t" << "T" << endl;
 							ts.close();
 						}
 						flagSimbIgual=0;
@@ -425,110 +433,147 @@ void montagem(char* file_name) {
 				} else {
 						cout << label << endl;
 						if (label.compare("ADD")==0){
-
+							pc+=1;								
 							cout << "opcode = 1" << endl;
 							if (saida.is_open()) {
 								saida << "1" << " ";
 							}
 
-						} else if (label.compare("SUB")==0) {
 
-							cout << "opcode = 2" << endl;
-							if (saida.is_open()) {
-								saida << "2" << " ";
-							}
+						} else if (label.compare("SUB")==0) {
+							pc+=2;	
+							cout << "opcode = 2" << endl;	
 
 						} else if (label.compare("MULT")==0) {
-
+							pc+=2;
 							cout << "opcode = 3" << endl;
 							if (saida.is_open()) {
 								saida << "3" << " ";
 							}
 
 						} else if (label.compare("DIV")==0) {
-
+							pc+=2;	
+							
 							cout << "opcode = 4" << endl;
 							if (saida.is_open()) {
 								saida << "4" << " ";
 							}
 						} else if (label.compare("JMP")==0) {
-
+							pc+=2;	
+							
 							cout << "opcode = 5" << endl;
 							if (saida.is_open()) {
 								saida << "5" << " ";
 							}
 						} else if (label.compare("JMPN")==0) {
-
+							pc+=2;	
+							
 							cout << "opcode = 6" << endl;
 							if (saida.is_open()) {
 								saida << "6" << " ";
 							}
 						} else if (label.compare("JMPP")==0) {
-
+							pc+=2;	
+							
 							cout << "opcode = 7" << endl;
 							if (saida.is_open()) {
 								saida << "7" << " ";
 							}
 						} else if (label.compare("JMPZ")==0) {
-
+							pc+=2;	
+							
 							cout << "opcode = 8" << endl;
 							if (saida.is_open()) {
 								saida << "8" << " ";
 							}
 						} else if (label.compare("COPY")==0) {
-
+							pc+=2;	
+							
 							cout << "opcode = 9" << endl;
 							if (saida.is_open()) {
 								saida << "9" << " ";
 							}
 							// TEM QUE CHECAR ESSE DE MANEIRA ISOLADA
 						} else if (label.compare("LOAD")==0) {
-
+							pc+=2;	
+							
 							cout << "opcode = 10" << endl;
 							if (saida.is_open()) {
 								saida << "10" << " ";
 							}
 						} else if (label.compare("STORE")==0) {
-
+							pc+=2;	
+							
 							cout << "opcode = 11" << endl;
 							if (saida.is_open()) {
 								saida << "11" << " ";
 							}
 						} else if (label.compare("INPUT")==0) {
-
+							pc+=2;	
+							
 							cout << "opcode = 12" << endl;
 							if (saida.is_open()) {
 								saida << "12" << " ";
 							}
 						} else if (label.compare("OUTPUT")==0) {
-
+							pc+=2;	
+							
 							cout << "opcode = 13" << endl;
 							if (saida.is_open()) {
 								saida << "13" << " ";
 							}
 						} else if (label.compare("STOP")==0) {
-
+							pc+=1;	
+							
 							cout << "opcode = 14" << endl;
 							numlinha--;
 							if (saida.is_open()) {
 								saida << "14" << " ";
 							}
 						} else if (label.compare("SPACE")==0) {
-
-							cout << "diretiva space" << endl;
+							pc+=1;
+							
+							int espacos = 0;
+						
+							
+							cout << "entrou aqui " << endl;
+							
+							if (label==" ") {
+								espacos = 1;
+							} else {
+								espacos = stoi(label);
+							}		
+							
+							cout << "diretiva space: " << espacos << endl;
 							numlinha--;
 
-						} else if (label.compare("SECTION")==0) {
-
+						} else if (label.compare("SECTION")==0) {	
+							
 							cout << "eh uma section" << endl;
 							numlinha--;
 						} else if (label.compare("TEXT")==0) {
 
 							cout << "eh uma section" << endl;
 							numlinha--;
+
 						} else if (label.compare("CONST")==0) {
+							pc+=2;	
 							
-							cout << "eh uma const" << endl;
+							token = strtok (NULL, " ");
+							label=token;
+							if (label.substr(0,2)=="0x") {
+								valor = (int) strtol(token, NULL, 0);
+							} else if (label.substr(0,3)=="-0x"){
+								valor = (int) strtol(token, NULL, 0);								
+							} else {
+								valor = stoi (label);
+							}
+
+							if (saida.is_open()) {
+								saida << valor << " ";
+							}
+							
+							
 							numlinha--;
 						} else {
 							//procurar dentro da tabela de símbolos para ver se está definido
@@ -593,7 +638,7 @@ void montagem(char* file_name) {
 
 
 							//caso na tabela de símbolos não exista o token, então ele deve ser criado e iniciado com valor de definição F
-								//a linha é salva na tabela de pendências
+							//a linha é salva na tabela de pendências
 							//caso na tabela de símbolos exista o token, mas definido com F, atualiza a lista de pendências
 							//caso na tabela de símbolos exista o token e ele esteja definido com V, pode escrever o valor
 							//caso na tabela de símbolos exista o token mas o operando só esta sendo definido agora, resolva todas as pendências 
@@ -604,7 +649,8 @@ void montagem(char* file_name) {
 				}
 			  	token = strtok (NULL, " ");
 			}
-
+			free (duplicata);
+			
 			//cout << numlinha << endl;
 			numlinha++;
 			numlinha++;
@@ -615,8 +661,7 @@ void montagem(char* file_name) {
 	//preenche as tabelas de simbolos e uso
 	//checa erros (fazer uma função de detecção de erros da linguagem inventada)
 	//escrever em um arquivo de saida
-
-}
+	}
 
 void codigo_objeto() {
 	//mostra o código objetos escrito
