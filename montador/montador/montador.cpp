@@ -362,6 +362,7 @@ void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
 	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao, buscatabela, arquivosaida, linhaobjeto;
 	char * token;
+	char ch = ' ';
 	int espacos, linhadependencia, dependencia;
 
 	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0, valor,i, achou=0,somador=0;
@@ -730,21 +731,25 @@ void montagem(char* file_name) {
 								cout << linha_lida << endl;
 								cout << linhadependencia << endl;
 								cout << line << endl;
-								size_t elimina = linha_lida.find(" ");
 								int largura = linha_lida.size();
 								// pesquisa pelo espaço de valor do numero encontrado
-								linha_lida = linha_lida.substr(elimina,largura);
 								cout << largura << endl;
-								somador++;
-
-								while ((largura >= 0)&&(somador == linhadependencia)){
-									string leitura = linha_lida.substr(elimina+2,largura);
-									cout << leitura << endl;
-									largura = leitura.size();
-									cout << largura << endl;
-									somador++;
-									elimina = leitura.find(" ");
-								}
+								
+	
+								somador=1;
+									for(i=0;i<largura;i++){
+										
+										if((isspace(linha_lida[i])) && (somador==linhadependencia)){
+											cout << "achou um espaço" << endl;
+											cout << somador << endl;
+											linhaobjeto.append(linha_lida.substr(i-2,i+1));
+											linhaobjeto.append(line);
+											linhaobjeto.append(" ");
+											cout << linhaobjeto << endl;
+										}
+										somador++;
+									}
+								
 
 								// assim que encontrar, substitui dos xx pelo valor contido me 
 							}
