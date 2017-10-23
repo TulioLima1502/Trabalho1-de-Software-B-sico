@@ -790,6 +790,7 @@ void montagem(char* file_name) {
 			tam=linha_da_ts.size();
 			line = linha_da_ts.substr(rposdef+1,tam);
 			cout << label << endl;
+			//cout << line  << " m "<< endl;
 			if (line=="F") {
 				while (getline(ts, linha_da_ts) && achou==0) {
 					poslabel = linha_da_ts.find("\t");
@@ -858,8 +859,9 @@ void montagem(char* file_name) {
 						}
 					}
 				}
-				ts.close();
+				//ts.close();
 			}
+			cout<< line << " n " << endl;
 		}
 		
 
