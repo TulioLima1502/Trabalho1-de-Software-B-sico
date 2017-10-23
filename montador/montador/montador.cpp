@@ -360,11 +360,11 @@ void pre_procesamento(char* file_name) {
 
 void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
-	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao, buscatabela, arquivosaida;
+	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao, buscatabela, arquivosaida, linhaobjeto;
 	char * token;
-	int espacos, linhadependencia;
+	int espacos, linhadependencia, dependencia;
 
-	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0, valor,i, achou=0;
+	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0, valor,i, achou=0,somador=0;
 	bool flag[17] = { 0 };
 
 	/* vetor de flags para indicar qual eh a instrucao instanciando
@@ -704,6 +704,7 @@ void montagem(char* file_name) {
 						if (line=="T") {
 							achou = 1;
 							line = linha_da_ts.substr(poslabel+1,rposdef-3);
+							dependencia=stoi(line);
 							poslabel =line.find("\t");	
 							line = line.substr(0,poslabel);							
 						}
@@ -723,12 +724,34 @@ void montagem(char* file_name) {
 						linhadependencia = stoi(linha_da_ts.substr(poslabel, rposdef));
 						ifstream saida("SAIDA.o");
 						achou =0;
-						if (saida.is_open()) {
-							//getline(saida, arquivosaida);
-							while (getline(saida, arquivosaida)) {
-								for (i=0; i < arquivosaida.length(); i++) {
-									
+						if (saida.is_open()) {							
+							if (getline(saida, arquivosaida)) {
+								//for (i=0; i < arquivosaida.length(); i++) {
+								size_t found = arquivosaida.find_first_of(" ");
+								int largura = arquivosaida.size();
+								stringstream ss;
+								somador++;
+								cout << somador << endl;
+								while (largura>0){
+									if (somador == linhadependencia){
+										cout << "testando: ";
+										found = arquivosaida.find_first_of(" ");
+										linhaobjeto.append(arquivosaida.substr(0,found));
+										linhaobjeto.append(" ");
+										ss << dependencia;
+										linhaobjeto.append(ss.str());
+										cout << linhaobjeto << endl;
+										arquivosaida = arquivosaida.substr(found, largura);
+										largura = arquivosaida.size();
+									}
 								}
+
+								cout << arquivosaida << endl;
+
+								//soma nos espaços um valor
+								//quando o valor de espaços for igual ao da linha que tem que ser trocada ai faz o swap
+									
+								//}
 
 								cout << endl;
 							}
