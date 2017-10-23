@@ -1,9 +1,25 @@
 // montador.cpp: Define o ponto de entrada para a aplicação de console.
-//
+// Nesse programa, implementamos o funcionamento compilador em diferentes estágios e comandos
+// de forma que a montagem do código siga a lógica de uma passagem.
+// Código desenvolvido pelos seguintes alunos:
 
 // ALUNOS: 
 // Tulio Mariano da Silva Lima	12/0054337
 // Matheus Barbosa de Miranda 13/0015083
+
+// O CÓDIGO DA DUPLA ENCONTRA-SE DISPONÍVEL NO GITHUB, NO SEGUINTE REPOSITÓRIO:
+//
+// 		https://github.com/TulioLima1502/Trabalho1-de-Software-B-sico
+//
+// INSTRUÇÕES DE USO/COMPILAÇÃO
+// É NECESSÁRIO REALIZAR A COMPILAÇÃO PARA SÓ EM SEGUIDA EXECUTAR
+// O COMANDO DE COMPILAÇÃO É: g++ -std=c++11 montador.cpp -o <nome do executável>
+// DEPOIS DE COMPILADO BASTA EXECUTAR O PROGRAMA COM O COMANDO: 
+//
+//				./<nome do executável> -x <nome do arquivo>.asm <nome do arquivo de saida>
+// 
+// ** PARA CORRETO FUNCIONAMENTO É NECESSAŔIO TER UM ARQUIVO TEXTO COM EXTENSÃO .ASM NA MESMA PASTA DO PROGRAMA MONTADOR.CPP
+
 
 //#include "stdafx.h"
 #include <iostream>
