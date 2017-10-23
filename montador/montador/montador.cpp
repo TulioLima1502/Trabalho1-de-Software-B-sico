@@ -728,37 +728,61 @@ void montagem(char* file_name) {
 						if (saida.is_open()) {							
 							if (getline(saida, arquivosaida)) {
 								linha_lida = arquivosaida;
+								char *duplicate = strdup(linha_lida.c_str());
+								token = strtok (duplicate," ");
 								cout << linha_lida << endl;
-								linhaobjeto = linha_lida;
-								cout << linhadependencia << endl;
-								cout << line << endl;
+								cout << token << endl;
+								linhaobjeto=token;
+								somador=0;
+								remove("SAIDA.o");
+								ofstream arquivofinal("SAIDA.o");
+								//se for xx e somador for igual a linha tabela altera o valor
+								while ((token!=NULL)||(somador==linhadependencia)){
+									linhaobjeto=token;
+									if ((linhaobjeto.compare("xx")==0)&&(somador==linhadependencia)){
+										cout << "troca" << endl;
+										// pega a linha toda substitui essa posicao e salva em saida novamente
+										//ofstream arquivofinal("SAIDA.o");
+										if (arquivofinal.is_open()) {
+											arquivofinal << line << " ";
+											token = strtok (NULL, " ");
+										}
+									}
+									if (arquivofinal.is_open()) {
+										arquivofinal << token << " ";
+									}
+									somador++;
+									token = strtok (NULL, " ");
+								}
+
+								//cout << arquivofinal << endl;
+
+								/*linhaobjeto = linha_lida;
+								*/cout << "Linha dependencia : " << linhadependencia << endl;
+								/*cout << line << endl;
 								int largura = linha_lida.size();
 								// pesquisa pelo espaço de valor do numero encontrado
 								cout << largura << endl;
-								
-	
-								somador=1;
-									for(i=0;i<largura;i++){
-										
-										if((isspace(linha_lida[i])) && (somador==linhadependencia)){
-											cout << "achou um espaço" << endl;
-											cout << linhaobjeto << endl;
-											cout << somador << endl;
-											linhaobjeto = linhaobjeto.substr(0,i) + " " + line + linhaobjeto.substr(i,largura);
-											linhaobjeto.append(" ");
-											linha_lida = linhaobjeto;
-											//cout << linha_lida << endl;
-											cout << linhaobjeto << endl;
-										}
-										somador++;
-									}
-								
+								somador=0;
 
+								while (token != NULL){
+									if((somador!=linhadependencia)&&(somador<1000)){
+										label=token;
+										cout << label << endl;
+										token = strtok (NULL, " ");
+									}else {
+										cout << line << endl;
+										token = strtok (NULL, " ");
+										//strcpy(line);
+									}
+									somador++;
+								}*/				
 								// assim que encontrar, substitui dos xx pelo valor contido me 
 							}
 						}
 					}
 				}
+				ts.close();
 			}
 		}
 		
