@@ -10,7 +10,7 @@ SWAP: MACRO
 MULT        DOIS;iuech9uhdcu udcuducohusnd;dushc9usehc
 STORE     TMP_DATA;0iechu0ueh0icuhes0i
 STORE     MP_DATA;0iechu0ueh0icuhes0i
-ENDMACRO
+END
 OIE: MACRO
 LOAD OLD_DATA
 IF testando
@@ -18,7 +18,7 @@ SUB TMP_DATA
 STORE TMP_DATA
 JMP testezao
 OUTPUT TMP_DATA
-ENDMACRO
+END
 OIE
 testezao: ADD OLD_DATA
 SWAP

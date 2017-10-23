@@ -20,6 +20,11 @@
 
 using namespace std;
 
+void erros (string line){
+	//recebe uma linha e procura erros dentro dela
+
+}
+
 string filtro_comentarios(string line) {
 	size_t poscom=line.find(";");
 	int coluna;
@@ -84,6 +89,7 @@ void lerarquivo(char* file_name) {
 	string line;
 	cout<<file_name;
 	ifstream myfile(file_name);
+	int achoutext=0, achoudata=0, errosection = 0 ;
 
 	remove ("auxiliar");
 	remove ("MNT");
@@ -107,12 +113,36 @@ void lerarquivo(char* file_name) {
 			{
 				mfile << line << endl;
 			}
+			if (line.find("SECTION TEXT")==0){
+				achoutext=1;
+			}
+			if (line.find("SECTION DATA")==0){
+				achoudata=1;
+			}
+			if (line.find("SECTION")==0){
+				size_t pos = line.find("SECTION");
+				int tamlinha = line.size();
+				string sectionerrada = line.substr(pos+8,tamlinha);
+				if ((sectionerrada.compare("DATA")!=0) && (sectionerrada.compare("TEXT")!=0)){
+					errosection = 1;
+				}
+			}
 		}
 		cout << "\n";
 		myfile.close();
 	}
 
 	else cout << "\nArquivo nao pode ser aberto!!!\n\n";
+
+	if (achoutext==0){
+		cout << "ERRO, FALTOU A SECTION TEXT" << endl;
+	}
+	if (achoudata==0){
+		cout << "ERRO, FALTOU A SECTION DATA" << endl;
+	}
+	if (errosection==1) {
+		cout << "ERRO na difinição do Section" << endl;
+	}
 
 }
 
@@ -125,7 +155,7 @@ void expande_macro(char* file_name){
 	ofstream mdtfile("MDT",ios::app);
 	ofstream menosm("SAIDA.MCR", ios::app);
 
-	string termina="ENDMACRO";
+	string termina="END";
 
 	int linhamdt=0, tam, contador=0, compara=0, linhafim;
 
@@ -755,29 +785,9 @@ void montagem(char* file_name) {
 									token = strtok (NULL, " ");
 								}
 
-								//cout << arquivofinal << endl;
-
 								/*linhaobjeto = linha_lida;
 								*/cout << "Linha dependencia : " << linhadependencia << endl;
-								/*cout << line << endl;
-								int largura = linha_lida.size();
-								// pesquisa pelo espaço de valor do numero encontrado
-								cout << largura << endl;
-								somador=0;
 
-								while (token != NULL){
-									if((somador!=linhadependencia)&&(somador<1000)){
-										label=token;
-										cout << label << endl;
-										token = strtok (NULL, " ");
-									}else {
-										cout << line << endl;
-										token = strtok (NULL, " ");
-										//strcpy(line);
-									}
-									somador++;
-								}*/				
-								// assim que encontrar, substitui dos xx pelo valor contido me 
 							}
 						}
 					}
@@ -793,7 +803,7 @@ void montagem(char* file_name) {
 	//preenche as tabelas de simbolos e uso
 	//checa erros (fazer uma função de detecção de erros da linguagem inventada)
 	//escrever em um arquivo de saida
-	}
+}
 
 void codigo_objeto() {
 	//mostra o código objetos escrito
