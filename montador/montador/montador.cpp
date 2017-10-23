@@ -437,66 +437,66 @@ void montagem(char* file_name) {
 						cout << label << endl;
 						if (label.compare("ADD")==0){
 							pc+=1;								
-							cout << "opcode = 1" << endl;
+							cout << "opcode = 01" << endl;
 							if (saida.is_open()) {
-								saida << "1" << " ";
+								saida << "01" << " ";
 							}
 
 
 						} else if (label.compare("SUB")==0) {
 							pc+=1;	
-							cout << "opcode = 2" << endl;	
+							cout << "opcode = 02" << endl;	
 							if (saida.is_open()) {
-								saida << "2" << " ";
+								saida << "02" << " ";
 							}
 						} else if (label.compare("MULT")==0) {
 							pc+=1;
-							cout << "opcode = 3" << endl;
+							cout << "opcode = 03" << endl;
 							if (saida.is_open()) {
-								saida << "3" << " ";
+								saida << "03" << " ";
 							}
 
 						} else if (label.compare("DIV")==0) {
 							pc+=1;	
 							
-							cout << "opcode = 4" << endl;
+							cout << "opcode = 04" << endl;
 							if (saida.is_open()) {
-								saida << "4" << " ";
+								saida << "04" << " ";
 							}
 						} else if (label.compare("JMP")==0) {
 							pc+=1;	
 							
-							cout << "opcode = 5" << endl;
+							cout << "opcode = 05" << endl;
 							if (saida.is_open()) {
-								saida << "5" << " ";
+								saida << "05" << " ";
 							}
 						} else if (label.compare("JMPN")==0) {
 							pc+=1;	
 							
-							cout << "opcode = 6" << endl;
+							cout << "opcode = 06" << endl;
 							if (saida.is_open()) {
-								saida << "6" << " ";
+								saida << "06" << " ";
 							}
 						} else if (label.compare("JMPP")==0) {
 							pc+=1;	
 							
-							cout << "opcode = 7" << endl;
+							cout << "opcode = 07" << endl;
 							if (saida.is_open()) {
-								saida << "7" << " ";
+								saida << "07" << " ";
 							}
 						} else if (label.compare("JMPZ")==0) {
 							pc+=1;	
 							
-							cout << "opcode = 8" << endl;
+							cout << "opcode = 08" << endl;
 							if (saida.is_open()) {
-								saida << "8" << " ";
+								saida << "08" << " ";
 							}
 						} else if (label.compare("COPY")==0) {
 							pc+=1;	
 							
-							cout << "opcode = 9" << endl;
+							cout << "opcode = 09" << endl;
 							if (saida.is_open()) {
-								saida << "9" << " ";
+								saida << "09" << " ";
 							}
 							// TEM QUE CHECAR ESSE DE MANEIRA ISOLADA
 						} else if (label.compare("LOAD")==0) {
