@@ -742,7 +742,7 @@ void montagem(char* file_name) {
 										if((isspace(linha_lida[i])) && (somador==linhadependencia)){
 											cout << "achou um espaço" << endl;
 											cout << somador << endl;
-											linhaobjeto.append(linha_lida.substr(i-2,i+1));
+											linhaobjeto.append(linha_lida.substr(i-2,3));
 											linhaobjeto.append(line);
 											linhaobjeto.append(" ");
 											cout << linhaobjeto << endl;
