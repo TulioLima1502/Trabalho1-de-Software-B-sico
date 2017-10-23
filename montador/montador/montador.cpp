@@ -360,7 +360,7 @@ void pre_procesamento(char* file_name) {
 
 void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
-	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao, buscatabela, arquivosaida, linhaobjeto;
+	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao, buscatabela, arquivosaida, linhaobjeto, linha_lida;
 	char * token;
 	char ch = ' ';
 	int espacos, linhadependencia, dependencia;
@@ -727,8 +727,9 @@ void montagem(char* file_name) {
 						achou =0;
 						if (saida.is_open()) {							
 							if (getline(saida, arquivosaida)) {
-								string linha_lida = arquivosaida;
+								linha_lida = arquivosaida;
 								cout << linha_lida << endl;
+								linhaobjeto = linha_lida;
 								cout << linhadependencia << endl;
 								cout << line << endl;
 								int largura = linha_lida.size();
@@ -741,10 +742,12 @@ void montagem(char* file_name) {
 										
 										if((isspace(linha_lida[i])) && (somador==linhadependencia)){
 											cout << "achou um espaço" << endl;
+											cout << linhaobjeto << endl;
 											cout << somador << endl;
-											linhaobjeto.append(linha_lida.substr(i-2,3));
-											linhaobjeto.append(line);
+											linhaobjeto = linhaobjeto.substr(0,i) + " " + line + linhaobjeto.substr(i,largura);
 											linhaobjeto.append(" ");
+											linha_lida = linhaobjeto;
+											//cout << linha_lida << endl;
 											cout << linhaobjeto << endl;
 										}
 										somador++;
