@@ -34,12 +34,8 @@
 #include <cstddef>
 #include <vector>
 
+
 using namespace std;
-
-void erros (string line){
-	//recebe uma linha e procura erros dentro dela
-
-}
 
 string filtro_comentarios(string line) {
 	size_t poscom=line.find(";");
@@ -127,6 +123,11 @@ void lerarquivo(char* file_name) {
 			line=formato_padrao(line); 	// remove tabulacoes, espacos extras e quebras de linhas.
 			if (mfile.is_open() && line!="")
 			{
+				for(int i=0;i < line.size();i++)
+				{
+					line[i]=toupper(line[i]);
+				}
+				cout << line << endl;
 				mfile << line << endl;
 			}
 			if (line.find("SECTION TEXT")==0){
