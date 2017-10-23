@@ -1,14 +1,22 @@
 // montador.cpp: Define o ponto de entrada para a aplicação de console.
 //
 
+// ALUNOS: 
+// Tulio Mariano da Silva Lima	12/0054337
+// Matheus Barbosa de Miranda 13/0015083
+
 //#include "stdafx.h"
 #include <iostream>
+#include <istream>
 #include <fstream>
+#include <sstream>
+#include <ostream>
 #include <string>
 #include <cstring>
 #include <iostream>
 #include <map>
 #include <cstddef>
+#include <vector>
 
 using namespace std;
 
@@ -352,7 +360,7 @@ void pre_procesamento(char* file_name) {
 
 void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
-	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao, buscatabela;
+	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao, buscatabela, arquivosaida;
 	char * token;
 	int espacos, linhadependencia;
 
@@ -672,6 +680,7 @@ void montagem(char* file_name) {
 			}
 		
 		} 
+		saida.close();
 		// Resolvendo pendencias:
 
 		ifstream ts("tabela_de_simbolos");
@@ -700,14 +709,30 @@ void montagem(char* file_name) {
 						}
 					}
 				} 
+				ts.close();
 				ifstream ts("tabela_de_simbolos");
 				while (getline(ts,linha_da_ts)) {
 					poslabel = linha_da_ts.find("\t");
-					buscatabela = linha_da_ts.substr(0, poslabel);					
+					buscatabela = linha_da_ts.substr(0, poslabel);
+					cout << "Busca tabela: " << buscatabela << endl;
+					cout << "Label: " << label << endl;					
 					if (buscatabela.compare(label)==0) {
+						cout << "linha da ts: " << linha_da_ts << endl;
 						poslabel = linha_da_ts.find("\t");
 						rposdef = linha_da_ts.rfind("\t");
 						linhadependencia = stoi(linha_da_ts.substr(poslabel, rposdef));
+						ifstream saida("SAIDA.o");
+						achou =0;
+						if (saida.is_open()) {
+							//getline(saida, arquivosaida);
+							while (getline(saida, arquivosaida)) {
+								for (i=0; i < arquivosaida.length(); i++) {
+									
+								}
+
+								cout << endl;
+							}
+						}
 					}
 				}
 			}
