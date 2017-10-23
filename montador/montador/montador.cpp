@@ -726,34 +726,27 @@ void montagem(char* file_name) {
 						achou =0;
 						if (saida.is_open()) {							
 							if (getline(saida, arquivosaida)) {
-								//for (i=0; i < arquivosaida.length(); i++) {
-								size_t found = arquivosaida.find_first_of(" ");
-								int largura = arquivosaida.size();
-								stringstream ss;
+								string linha_lida = arquivosaida;
+								cout << linha_lida << endl;
+								cout << linhadependencia << endl;
+								cout << line << endl;
+								size_t elimina = linha_lida.find(" ");
+								int largura = linha_lida.size();
+								// pesquisa pelo espaço de valor do numero encontrado
+								linha_lida = linha_lida.substr(elimina,largura);
+								cout << largura << endl;
 								somador++;
-								cout << somador << endl;
-								while (largura>0){
-									if (somador == linhadependencia){
-										cout << "testando: ";
-										found = arquivosaida.find_first_of(" ");
-										linhaobjeto.append(arquivosaida.substr(0,found));
-										linhaobjeto.append(" ");
-										ss << dependencia;
-										linhaobjeto.append(ss.str());
-										cout << linhaobjeto << endl;
-										arquivosaida = arquivosaida.substr(found, largura);
-										largura = arquivosaida.size();
-									}
+
+								while ((largura >= 0)&&(somador == linhadependencia)){
+									string leitura = linha_lida.substr(elimina+2,largura);
+									cout << leitura << endl;
+									largura = leitura.size();
+									cout << largura << endl;
+									somador++;
+									elimina = leitura.find(" ");
 								}
 
-								cout << arquivosaida << endl;
-
-								//soma nos espaços um valor
-								//quando o valor de espaços for igual ao da linha que tem que ser trocada ai faz o swap
-									
-								//}
-
-								cout << endl;
+								// assim que encontrar, substitui dos xx pelo valor contido me 
 							}
 						}
 					}
