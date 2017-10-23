@@ -102,23 +102,23 @@ void lerarquivo(char* file_name,char* file_name2 ) {
 
 
 	string nome,saida,mcr,pontoo;
-	cout<<file_name2<< endl;
+	//cout<<file_name2<< endl;
 	nome=file_name2;
 	nome=nome.substr(0,nome.size());
 	//nome.append(".pre");
 	cout << nome;
 
 	saida = nome.substr(0,nome.size())+".pre";
-	cout << saida << endl;
+	//cout << saida << endl;
 	mcr=nome.substr(0,nome.size())+".MCR";
-	cout << mcr << endl;
+	//cout << mcr << endl;
 	pontoo=nome.substr(0,nome.size())+".o";
 
 	const char * psaida = saida.c_str();
 	const char * pmcr = mcr.c_str();
 	const char * ppontoo = pontoo.c_str();
 
-	cout<<file_name;
+	//cout<<file_name;
 	ifstream myfile(file_name);
 	int achoutext=0, achoudata=0, errosection = 0 ;
 
@@ -135,7 +135,7 @@ void lerarquivo(char* file_name,char* file_name2 ) {
 	ofstream mfile("auxiliar", ios::app);
 	if (myfile.is_open())
 	{
-		cout << "\n";
+		//cout << "\n";
 		while (getline(myfile, line))
 		{
 			line=filtro_comentarios(line);
@@ -146,7 +146,7 @@ void lerarquivo(char* file_name,char* file_name2 ) {
 				{
 					line[i]=toupper(line[i]);
 				}
-				cout << line << endl;
+				//cout << line << endl;
 				mfile << line << endl;
 			}
 			if (line.find("SECTION TEXT")==0){
@@ -164,7 +164,7 @@ void lerarquivo(char* file_name,char* file_name2 ) {
 				}
 			}
 		}
-		cout << "\n";
+		//cout << "\n";
 		myfile.close();
 	}
 
@@ -206,7 +206,7 @@ void expande_macro(char* file_name){
 	if (meufile.is_open())
 	{
 
-		cout << "ta aqui?" << endl;
+		//cout << "ta aqui?" << endl;
 		while (getline(meufile, line))
 		{
 			
@@ -230,7 +230,7 @@ void expande_macro(char* file_name){
 						getline(meufile,line);
 						cout << line << endl;
 						comparando=line;
-						cout << "COmparacao: " << comparando.compare(termina) << endl;
+						cout << "Comparacao: " << comparando.compare(termina) << endl;
 						linhamdt++;				
 					}while( ( comparando.compare(termina) != 0 ) );
 	
@@ -316,12 +316,11 @@ void expande_macro(char* file_name){
 								
 							}
 							if (token=="STOP") {  				// esse if eh so pra colocar o STOP no .mcr. sem isso o stop nao entra.				
-								cout << "entrou aqui!" << endl;
+								//cout << "entrou aqui!" << endl;
 								if (menosm.is_open()) {
 									menosm << token << endl;
 								}
 							}
-							cout << "eh nois" << endl;
 							mdtfile.close();
 							mntfile.close();
 							contador=0;
@@ -351,7 +350,7 @@ void pre_procesamento(char* file_name) {
 	nome=file_name;
 	nome=nome.substr(0,nome.size());
 	//nome.append(".pre");
-	cout << nome;
+	//cout << nome;
 
 
 	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ;
@@ -383,7 +382,7 @@ void pre_procesamento(char* file_name) {
 				{
 					equfile << nomeparam + "\t"; //o nome desse arquivo é MNT(Macro Name Table)
 					equfile << valorparam <<endl;
-					cout << "tá aqui nesse caralho\n";
+					//cout << "tá aqui nesse caralho\n";
 				}
 				else cout << "\nArquivo nao pode ser aberto EQU!!!\n\n";
 
@@ -445,11 +444,11 @@ void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
 	
 	string nome;
-	cout<<file_name << endl;
+	//cout<<file_name << endl;
 	nome=file_name;
 	nome=nome.substr(0,nome.size());
 	//nome.append(".pre");
-	cout << nome;
+	//cout << nome;
 	string teste = nome.substr(0,nome.size())+".MCR";
 	string remover=nome.append(".o");
 
@@ -476,7 +475,7 @@ void montagem(char* file_name) {
 	//pegar uma linha verificar o tem nela e testar a função strtok, com :, ai adiciona ou procura na tabela de símbolos
 	if (entrada.is_open())
 	{
-		cout << "\n";
+		//cout << "\n";
 		while (getline(entrada, line))
 		{
 			//size_t dois_pontos=line.find(":");
@@ -495,7 +494,7 @@ void montagem(char* file_name) {
 	
 					tamanhot = label.size();
 					simbolo = label.substr(0,tamanhot-1);
-					cout << simbolo << endl;
+					//cout << simbolo << endl;
 					ifstream ts("tabela_de_simbolos", ios::app);
 					if (ts.is_open()){
 						
@@ -519,7 +518,7 @@ void montagem(char* file_name) {
 
 								} else if ((simbolo.compare(SimboloDaTS)==0)&&(definicao=="F")) {
 									cout << definicao << endl;
-									cout << simbolo << "\n\nPOR FAVOR RESOLVA AS PENDENCIAS DESSE PARAMETRO\n\n";
+									//cout << simbolo << "\n\nPOR FAVOR RESOLVA AS PENDENCIAS DESSE PARAMETRO\n\n";
 									// aqui já pode ser resolvida as pendencias que aparecerem
 									// fazer a função para resolver as pendencias do código objeto 
 
@@ -644,8 +643,8 @@ void montagem(char* file_name) {
 							
 							size_t posicao = line.find("SPACE");
 							string teste = line.substr(0,posicao+5);
-							cout << teste << endl;
-							cout << "oi" << endl;
+							//cout << teste << endl;
+							//cout << "oi" << endl;
 							int posnum = teste.size();
 							int comprimento = line.size();
 							int result = comprimento - posnum;
@@ -655,7 +654,7 @@ void montagem(char* file_name) {
 								label=token;
 								//cout << label << endl;
 								espacos=atoi(token);
-								cout << espacos << endl;
+								//cout << espacos << endl;
 							} else if(result < 1){
 								espacos = 1;
 								//cout << espacos << endl;
@@ -711,7 +710,7 @@ void montagem(char* file_name) {
 									if (postab!=linha_da_ts.npos) {
 										simbolo_lido = linha_da_ts.substr(0, postab);
 										if (label.compare(simbolo_lido)==0) {
-											cout << "\n\nachou esse caralho\n" << endl;
+											//cout << "\n\nachou esse caralho\n" << endl;
 											novo = postab;
 											postab=linha_da_ts.find("\t",postab+3,1);
 											definicao=linha_da_ts.substr(novo+4, postab);
@@ -727,7 +726,7 @@ void montagem(char* file_name) {
 												// AQUI PODE ESCREVER O X NO VALOR DO PARAMETRO NO ARQUIVO DE SAIDA.O
 												
 											} else {
-												cout << "simbolo não encontrado" << endl;
+												//cout << "simbolo não encontrado" << endl;
 												// VERIFICAR SE A LINHA DE CODIGO ANTERIOR RESOLVE ESSE CASO
 												// AQUI PODE ESCREVER O X NO VALOR DO PARAMETRO NO ARQUIVO DE SAIDA.O
 												// DEPOIS DE FEITO TUDO ISSO TEM QUE VERIFICAR RESOLVER AS PENDENCIAS DE TODOS ARQUIVOS
