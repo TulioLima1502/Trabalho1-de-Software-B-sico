@@ -95,10 +95,29 @@ string formato_padrao(string line) {
 	return (line);
 }
 
-void lerarquivo(char* file_name) { 
+void lerarquivo(char* file_name,char* file_name2 ) { 
 	//cout<<nome;
 	//char name[] = {nome};
 	string line;
+
+
+	string nome,saida,mcr,pontoo;
+	cout<<file_name2<< endl;
+	nome=file_name2;
+	nome=nome.substr(0,nome.size());
+	//nome.append(".pre");
+	cout << nome;
+
+	saida = nome.substr(0,nome.size())+".pre";
+	cout << saida << endl;
+	mcr=nome.substr(0,nome.size())+".MCR";
+	cout << mcr << endl;
+	pontoo=nome.substr(0,nome.size())+".o";
+
+	const char * psaida = saida.c_str();
+	const char * pmcr = mcr.c_str();
+	const char * ppontoo = pontoo.c_str();
+
 	cout<<file_name;
 	ifstream myfile(file_name);
 	int achoutext=0, achoudata=0, errosection = 0 ;
@@ -107,10 +126,10 @@ void lerarquivo(char* file_name) {
 	remove ("MNT");
 	remove ("MDT");
 	remove ("EQU");
-	remove ("saida");
-	remove ("SAIDA.MCR");
+	remove (psaida);
+	remove (pmcr);
 	remove("tabela_de_simbolos");
-	remove ("SAIDA.o");
+	remove (ppontoo);
 
 
 	ofstream mfile("auxiliar", ios::app);
@@ -165,12 +184,20 @@ void lerarquivo(char* file_name) {
 
 void expande_macro(char* file_name){
 
+	string nome;
+	cout<<file_name << endl;
+	nome=file_name;
+	nome=nome.substr(0,nome.size());
+	cout << nome;
+
 	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ, token, mntbusca, mdtbusca, mdtline, linhabusca, comparando, linhafimacro;
 
-	ifstream meufile(file_name);
+	string saida = nome.substr(0,nome.size())+".pre";
+
+	ifstream meufile(saida);
 	ofstream mntfile("MNT",ios::app);
 	ofstream mdtfile("MDT",ios::app);
-	ofstream menosm("SAIDA.MCR", ios::app);
+	ofstream menosm(nome.append(".MCR"), ios::app);
 
 	string termina="END";
 
@@ -318,11 +345,20 @@ void expande_macro(char* file_name){
 
 void pre_procesamento(char* file_name) {
 	
+
+	string nome;
+	cout<<file_name << endl;
+	nome=file_name;
+	nome=nome.substr(0,nome.size());
+	//nome.append(".pre");
+	cout << nome;
+
+
 	string line, nomedamacro, nomeparam, valorparam, nomeequ, valorequ;
 	int fim, posequ, fimequ, remover, teste;
 	ifstream meufile("auxiliar");
 	ofstream equfile("EQU",ios::app);
-	ofstream saidafile("saida",ios::app);
+	ofstream saidafile(nome.append(".pre"),ios::app);
 
 
 	if (meufile.is_open()) 
@@ -407,6 +443,18 @@ void pre_procesamento(char* file_name) {
 
 void montagem(char* file_name) {
 	//faz a conversão do código conforme a passagem única
+	
+	string nome;
+	cout<<file_name << endl;
+	nome=file_name;
+	nome=nome.substr(0,nome.size());
+	//nome.append(".pre");
+	cout << nome;
+	string teste = nome.substr(0,nome.size())+".MCR";
+	string remover=nome.append(".o");
+
+	const char *premove = remover.c_str();
+	
 	string line, label, simbolo, SimboloDaTS, simbolo_lido, linha_da_ts, definicao, buscatabela, arquivosaida, linhaobjeto, linha_lida;
 	char * token;
 	char ch = ' ';
@@ -422,8 +470,8 @@ void montagem(char* file_name) {
 	correspondem `as diretivas section, space e const. */
 	
 	ifstream meufile(file_name);
-	ifstream entrada("SAIDA.MCR");
-	ofstream saida("SAIDA.o", ios::app);
+	ifstream entrada(teste);
+	ofstream saida(remover, ios::app);
 	
 	//pegar uma linha verificar o tem nela e testar a função strtok, com :, ai adiciona ou procura na tabela de símbolos
 	if (entrada.is_open())
@@ -770,7 +818,7 @@ void montagem(char* file_name) {
 						poslabel = linha_da_ts.find("\t");
 						rposdef = linha_da_ts.rfind("\t");
 						linhadependencia = stoi(linha_da_ts.substr(poslabel, rposdef));
-						ifstream saida("SAIDA.o");
+						ifstream saida(remover);
 						achou =0;
 						if (saida.is_open()) {							
 							if (getline(saida, arquivosaida)) {
@@ -781,8 +829,8 @@ void montagem(char* file_name) {
 								cout << token << endl;
 								linhaobjeto=token;
 								somador=0;
-								remove("SAIDA.o");
-								ofstream arquivofinal("SAIDA.o");
+								remove(premove);
+								ofstream arquivofinal(remover);
 								//se for xx e somador for igual a linha tabela altera o valor
 								while ((token!=NULL)||(somador==linhadependencia)){
 									linhaobjeto=token;
@@ -834,7 +882,7 @@ int main(int argc, char* argv[]) {
 	string file_name;
 
 	file_name = argv[2]; // passar para learquivo(). eh o nome do arquivo .asm.
-	lerarquivo(argv[2]);
+	lerarquivo(argv[2],argv[3]);
 
 	if (string(argv[1])=="-p"){
 		pre_procesamento(argv[3]);
