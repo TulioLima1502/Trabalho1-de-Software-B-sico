@@ -131,8 +131,7 @@ void lerarquivo(char* file_name,char* file_name2 ) {
 	remove (psaida);
 	remove (pmcr);
 	remove("tabela_de_simbolos");
-	remove ("tabela_nova");
-	remove ("SAIDA.o");
+	remove (ppontoo);
 
 
 	ofstream mfile("auxiliar", ios::app);
@@ -463,7 +462,6 @@ void montagem(char* file_name) {
 	int espacos, linhadependencia, dependencia;
 
 	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0, valor,i, achou=0,somador=0;
-	int numlinha=0, continua=0, tamanhot, flagSimbIgual=0, pc=0, valor,i, achou=0,somador=0;
 	bool flag[17] = { 0 };
 
 	/* vetor de flags para indicar qual eh a instrucao instanciando
@@ -783,14 +781,11 @@ void montagem(char* file_name) {
 		// Resolvendo pendencias:
 
 		ifstream ts("tabela_de_simbolos");
-		
 		while (getline(ts, linha_da_ts)) {
 			cout << "Comecando a procurar..." <<endl;
-			cout << "Comecando a procurar o simbolo: ";
 			size_t rposdef = linha_da_ts.rfind("\t");
 			size_t poslabel = linha_da_ts.find("\t");
 			label = linha_da_ts.substr(0,poslabel);
-			cout << label << endl;	
 			int tam = 0;
 			tam=linha_da_ts.size();
 			line = linha_da_ts.substr(rposdef+1,tam);
@@ -809,7 +804,14 @@ void montagem(char* file_name) {
 							line = linha_da_ts.substr(poslabel+1,rposdef-3);
 							dependencia=stoi(line);
 							poslabel =line.find("\t");	
-							line = line.substr(0,poslabel);							
+							line = line.substr(0,poslabel);		
+							
+							// e se ele inserir aqui logo???
+							//tem que procurar pelo valor da linha que tem que inserir
+							//depois que tiver tem que ter o valor que tem que ser escrito nela
+							//procura dentro de um arquivo de saida a linha
+							//achou, resecreve o arquivo texto com esse valor correto
+							//essa logica pode dar certo, mas a que eu tenho já funciona, mas eu preciso para vários
 						}
 					}
 				} 
@@ -819,7 +821,7 @@ void montagem(char* file_name) {
 					poslabel = linha_da_ts.find("\t");
 					buscatabela = linha_da_ts.substr(0, poslabel);
 					cout << "Busca tabela: " << buscatabela << endl;
-					cout << "Label: " << label << endl;					
+					cout << "Label: " << label << endl;				
 					if (buscatabela.compare(label)==0) {
 						cout << "linha da ts: " << linha_da_ts << endl;
 						poslabel = linha_da_ts.find("\t");
@@ -847,8 +849,6 @@ void montagem(char* file_name) {
 										//ofstream arquivofinal("SAIDA.o");
 										if (arquivofinal.is_open()) {
 											arquivofinal << line << " ";
-											cout << "LINE: " << line <<  endl;
-											cout << "TOKEN: " << token << endl;
 											token = strtok (NULL, " ");
 										}
 									}
@@ -859,54 +859,16 @@ void montagem(char* file_name) {
 									token = strtok (NULL, " ");
 								}
 
+								/*linhaobjeto = linha_lida;
+								*/cout << "Linha dependencia : " << linhadependencia << endl;
 
-								
 							}
 						}
 					}
 				}
 				//ts.close();
 			}
-<<<<<<< HEAD
 			cout<< line << " n " << endl;
-=======
-			// Depois de resolver tooodas as dependencias de uma label, reescreve a TS,
-			// deletando as linhas que tinham F.
-			ts.close();
-			ofstream newts("tabela_nova", ios::app);
-			ifstream ts("tabela_de_simbolos");
-			while (getline (ts, linha_da_ts)) {
-				size_t rposdef = linha_da_ts.rfind("\t");
-				size_t poslabel = linha_da_ts.find("\t");
-				line = linha_da_ts.substr(0,poslabel);
-				if (line==label) {
-					tam = 0;
-					tam=linha_da_ts.size();
-					line = linha_da_ts.substr(rposdef+1,tam);
-					if (line.compare("F")==0) {
-						linha_da_ts="";
-					}
-				}
-				if (newts.is_open()) {
-					newts << linha_da_ts << endl;
-				}
-			}
-
-			ts.close();			
-			remove("tabela_de_simbolos");
-			newts.close();
-			ifstream newtss("tabela_nova");
-			ofstream tss("tabela_de_simbolos", ios::app);
-			while (getline (newtss, linha_da_ts)) {
-				if (linha_da_ts!="") {
-					tss << linha_da_ts << endl;
-				}
-			}
-			tss.close();
-			newtss.close();
-			ts.open ("tabela_de_simbolos", std::ifstream::in);
-			
->>>>>>> 08e47087a9e6b4e296fd0cab18a04bc4523a32d3
 		}
 		
 
