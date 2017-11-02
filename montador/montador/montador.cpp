@@ -462,6 +462,7 @@ void montagem(char* file_name) {
 	char * token;
 	char ch = ' ';
 	int espacos, linhadependencia, dependencia;
+	string linha_da_tabelaconsulta, linedois, labeldois;
 
 	int numlinha=0, tamanhot, flagSimbIgual=0, pc=0, valor,i, achou=0,somador=0;
 	bool flag[17] = { 0 };
@@ -780,6 +781,8 @@ void montagem(char* file_name) {
 		
 		} 
 		saida.close();
+
+
 		// Resolvendo pendencias:
 
 		ifstream ts("tabela_de_simbolos");
@@ -793,7 +796,34 @@ void montagem(char* file_name) {
 			line = linha_da_ts.substr(rposdef+1,tam);
 			cout << label << endl;
 			//cout << line  << " m "<< endl;
-			if (line=="F") {
+			if (line=="T"){
+				ifstream tabelaconsulta("tabela_de_simbolos");
+				while (getline(tabelaconsulta, linha_da_tabelaconsulta)){
+					cout << "Comecando a procurar...2" <<endl;
+					size_t rposdef = linha_da_tabelaconsulta.rfind("\t");
+					size_t poslabel = linha_da_tabelaconsulta.find("\t");
+
+					labeldois = linha_da_tabelaconsulta.substr(0,poslabel);
+					int tamdois = 0;
+					tamdois=linha_da_tabelaconsulta.size();
+					linedois = linha_da_tabelaconsulta.substr(rposdef+1,tamdois);
+					//cout << label << endl;
+					//cout << linedois << endl;
+					if (label==labeldois){
+						if (linedois=="F"){
+							cout << label << endl;
+							cout << linedois << endl;
+							//basta resolver as pendencias aqui
+							//pega o valor da linha que tem que resolver
+							//salta a quantidade de tabs até o ponto e então altera no arquivo de saida
+						}
+					}
+
+
+				}
+
+			}
+			/*if (line=="F") {
 				while (getline(ts, linha_da_ts) && achou==0) {
 					poslabel = linha_da_ts.find("\t");
 					buscatabela = linha_da_ts.substr(0, poslabel);
@@ -861,15 +891,14 @@ void montagem(char* file_name) {
 									token = strtok (NULL, " ");
 								}
 
-								/*linhaobjeto = linha_lida;
-								*/cout << "Linha dependencia : " << linhadependencia << endl;
+								//cout << "Linha dependencia : " << linhadependencia << endl;
 
 							}
 						}
 					}
 				}
 				//ts.close();
-			}
+			}*/
 			cout<< line << " n " << endl;
 		}
 		
