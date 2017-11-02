@@ -820,11 +820,44 @@ void montagem(char* file_name) {
 							size_t segundo = linha_da_tabelaconsulta.find("\t");
 							
 							string linha_da_pendencia = linha_da_tabelaconsulta.substr(segundo+1,primeiro-segundo);
-							cout << linha_da_pendencia << endl;
+							
 							//transforma esse valor para inteiro
+							int valorinteiro=stoi(linha_da_pendencia);
+							cout << valorinteiro << endl;
 							//abre o arquivo de saida e pesquisa pelo valor de interesse
-							//salta a quantidade de tabs até o ponto
-							//altera no arquivo de saida
+							ifstream saida(remover);
+							if (saida.is_open()) {							
+								while (getline(saida, arquivosaida)) {
+									//cout << arquivosaida << endl;
+									size_t encontrou = arquivosaida.find(" ");
+									somador=1;
+									cout << "aqui" << endl;
+									arquivosaida=arquivosaida.substr(encontrou+1,arquivosaida.size());
+									cout<<arquivosaida<<endl;
+									while(arquivosaida.size()>0){
+										arquivosaida = arquivosaida.substr(arquivosaida.find(" ")+1);
+										cout << arquivosaida << endl;
+										//arquivosaida=arquivosaida.substr(encontrou);
+										somador++;
+										if (somador==valorinteiro){
+											//troca aqui
+											cout << "troca aqui" << endl;
+											cout << valorinteiro << " ";
+											cout << arquivosaida.substr(3) << endl;
+											//salta a quantidade de tabs até o ponto
+											//altera no arquivo de saida
+											//copia do valor que foi alterado até o inicio para o arquivo de saida
+											//depois soma com o valor alterado e o proximo valor até o final do arquivo de saida
+											//reescreve o valor no arquivo de saida
+
+										}
+									}
+
+								}
+							}
+
+						
+							
 
 						}
 					}
