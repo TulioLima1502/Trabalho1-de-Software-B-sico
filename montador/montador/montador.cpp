@@ -813,9 +813,19 @@ void montagem(char* file_name) {
 						if (linedois=="F"){
 							cout << label << endl;
 							cout << linedois << endl;
+							cout << linha_da_tabelaconsulta << endl;
 							//basta resolver as pendencias aqui
 							//pega o valor da linha que tem que resolver
-							//salta a quantidade de tabs até o ponto e então altera no arquivo de saida
+							size_t primeiro = linha_da_tabelaconsulta.rfind("\t");
+							size_t segundo = linha_da_tabelaconsulta.find("\t");
+							
+							string linha_da_pendencia = linha_da_tabelaconsulta.substr(segundo+1,primeiro-segundo);
+							cout << linha_da_pendencia << endl;
+							//transforma esse valor para inteiro
+							//abre o arquivo de saida e pesquisa pelo valor de interesse
+							//salta a quantidade de tabs até o ponto
+							//altera no arquivo de saida
+
 						}
 					}
 
